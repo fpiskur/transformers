@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -10,5 +14,35 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  monospace;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul > li {
+  border-bottom: 1px solid black;
+  padding: 1em 0.5em;
+}
+
+#root {
+  padding: 1em 3em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.transformer-status {
+  display: inline-block;
+  width: 100px;
+  background-color: #654123;
+  color: #ffffff;
+  margin-right: 2em;
+  padding: 0.3em;
+  border-radius: 2px;
+  text-align: center;
 }

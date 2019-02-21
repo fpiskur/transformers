@@ -1,0 +1,9 @@
+.link-separator {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#filter {
+  height: 100%;
+  align-items: center;
+}
