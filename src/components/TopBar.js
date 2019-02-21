@@ -5,8 +5,8 @@ import './TopBar.css';
 class TopBar extends Component {
 
   state = {
-    factions: [],
-    isLoaded: false
+    isLoaded: false,
+    factions: []
   }
 
   componentDidMount() {
@@ -30,15 +30,6 @@ class TopBar extends Component {
       return (
         <div className="row">
           <div className="col-12 col-md-5">
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="search-transformers">Search:</span>
-              </div>
-              <input type="text" className="form-control" placeholder="search by name..." aria-label="Name" aria-describedby="search-transformers"/>
-            </div>
-          </div>
-
-          <div className="col-12 col-md-5">
             <div id="filter" className="d-flex align-items-center">
               <span className="mr-3">Filter:</span>
               <div className="d-inline" aria-label="Factions">
@@ -50,6 +41,15 @@ class TopBar extends Component {
                   </span>
                 ))}
               </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-md-5">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="search-transformers">Search:</span>
+              </div>
+              <input type="text" className="form-control" placeholder="search by name..." aria-label="Name" aria-describedby="search-transformers"/>
             </div>
           </div>
 

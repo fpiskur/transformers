@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class Faction extends Component {
 
   state = {
-    factions: [],
-    isLoaded: false
+    isLoaded: false,
+    factions: []
   }
 
   componentDidMount() {
@@ -12,8 +12,8 @@ class Faction extends Component {
       .then(res => res.json())
       .then(json => {
         this.setState({
-          factions: json.factions,
-          isLoaded: true
+          isLoaded: true,
+          factions: json.factions
         })
       });
   }
