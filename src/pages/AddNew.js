@@ -6,11 +6,14 @@ class AddNew extends Component {
   state = {
     isLoaded: false,
     factions: [],
-    vehicleTypes: []
+    vehicleTypes: [],
+    selectedVehicleGroup: "",
+    selectedVehicleTypes: [],
+    selectedVehicleModels: []
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/db')
+    fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/db')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -19,6 +22,15 @@ class AddNew extends Component {
           vehicleTypes: json.vehicleTypes
         })
       });
+  }
+
+
+  handleGroupChange = (e) => {
+    let {value} = e.target;
+    let selectedVehicleTypes = this.state.vehicleTypes.filter(selectedType => selectedType.group == value)
+                                           .map(vehicle => vehicle.type);
+
+    this.setState({ selectedVehicleGroup: value, selectedVehicleTypes: selectedVehicleTypes });
   }
 
   render() {
@@ -92,23 +104,26 @@ class AddNew extends Component {
                     <div className="col-12">
                       <legend>Vehicle properties</legend>
                     </div>
+
                     <div className="col-12 col-md-3">
                       <label htmlFor="vehicle-group">Vehicle group:</label>
-                      <select className="form-control custom-select" id="vehicle-group">
+                      <select className="form-control custom-select" id="vehicle-group" onChange={this.handleGroupChange}>
                         <option hidden disabled selected value> -- vehicle group -- </option>
                         {distinctVehicleGroups.map(group => (
                           <option key={group.toString()} value={group}>{ group }</option>
                         ))};
                       </select>
                     </div>
+
                     <div className="col-12 col-md-3">
                       <label htmlFor="vehicle-type">Vehicle type:</label>
-                      <select className="form-control custom-select" id="vehicle-type" disabled>
-                        {vehicleTypes.map(faction => (
-                          <option key={faction.id} value="">{ faction.name }</option>
+                      <select className="form-control custom-select" id="vehicle-type">
+                        {this.state.selectedVehicleTypes.map(type => (
+                          <option key={type.toString()} value={type}>{ type }</option>
                         ))};
                       </select>
                     </div>
+
                     <div className="col-12 col-md-3">
                       <label htmlFor="vehicle-model">Vehicle model:</label>
                       <select className="form-control custom-select" id="vehicle-model" disabled>

@@ -8,7 +8,7 @@ class Faction extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/db')
+    fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/db')
       .then(res => res.json())
       .then(json => {
         this.setState({
