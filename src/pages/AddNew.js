@@ -9,7 +9,9 @@ class AddNew extends Component {
     factions: [],
     vehicleTypes: [],
     availableVehicleTypes: [],
-    availableVehicleModels: []
+    availableVehicleModels: [],
+    typesDisabled: true,
+    modelsDisabled: true
   }
 
   componentDidMount() {
@@ -31,14 +33,15 @@ class AddNew extends Component {
                                             .map(vehicle => vehicle.type);
     let uniqueVehicleTypes = [...new Set(groupTypes)];
 
-    this.setState({ availableVehicleTypes: uniqueVehicleTypes });
+    this.setState({ availableVehicleTypes: uniqueVehicleTypes, typesDisabled: false });
   }
 
   handleTypeChange = (e) => {
     let {value} = e.target;
     let vehicleModels = this.state.vehicleTypes.filter(selectedModel => selectedModel.type == value)
                                             .map(vehicle => vehicle.model);
-    this.setState({ availableVehicleModels: vehicleModels });
+
+    this.setState({ availableVehicleModels: vehicleModels, modelsDisabled: false });
   }
 
   render() {
@@ -113,35 +116,27 @@ class AddNew extends Component {
                       <legend>Vehicle properties</legend>
                     </div>
 
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="vehicle-group">Vehicle group:</label>
-                      <select className="form-control custom-select" id="vehicle-group" onChange={this.handleGroupChange}>
-                        <option hidden disabled selected value> -- vehicle group -- </option>
-                        {uniqueVehicleGroups.map(group => (
-                          <option key={group.toString()} value={group}>{ group }</option>
-                        ))};
-                      </select>
-                    </div>
+                    <VehicleSelectList
+                      dropDownPlaceholder = " -- vehicle group -- "
+                      optionsList = {uniqueVehicleGroups}
+                      disabled = {false}
+                      method = {this.handleGroupChange}
+                    />
 
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="vehicle-type">Vehicle type:</label>
-                      <select className="form-control custom-select" id="vehicle-type" onChange={this.handleTypeChange}>
-                        <option hidden disabled selected value> -- vehicle type -- </option>
-                        {this.state.availableVehicleTypes.map(type => (
-                          <option key={type.toString()} value={type}>{ type }</option>
-                        ))};
-                      </select>
-                    </div>
+                    <VehicleSelectList
+                      dropDownPlaceholder = " -- vehicle type -- "
+                      optionsList = {this.state.availableVehicleTypes}
+                      disabled = {this.state.typesDisabled}
+                      method = {this.handleTypeChange}
+                    />
 
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="vehicle-model">Vehicle model:</label>
-                      <select className="form-control custom-select" id="vehicle-model">
-                        <option hidden disabled selected value> -- vehicle model -- </option>
-                        {this.state.availableVehicleModels.map(model => (
-                          <option key={model.toString()} value={model}>{ model }</option>
-                        ))};
-                      </select>
-                    </div>
+                    <VehicleSelectList
+                      dropDownPlaceholder = " -- vehicle model -- "
+                      optionsList = {this.state.availableVehicleModels}
+                      disabled = {this.state.modelsDisabled}
+                      method = {null}
+                    />
+
                   </div>
                 </fieldset>
               </div>
