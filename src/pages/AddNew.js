@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import VehicleSelectList from '../components/VehicleSelectList.js';
 import './AddNew.css';
 
 class AddNew extends Component {
@@ -7,9 +8,8 @@ class AddNew extends Component {
     isLoaded: false,
     factions: [],
     vehicleTypes: [],
-    selectedVehicleGroup: "",
-    selectedVehicleTypes: [],
-    selectedVehicleModels: []
+    availableVehicleTypes: [],
+    availableVehicleModels: []
   }
 
   componentDidMount() {
@@ -27,15 +27,23 @@ class AddNew extends Component {
 
   handleGroupChange = (e) => {
     let {value} = e.target;
-    let selectedVehicleTypes = this.state.vehicleTypes.filter(selectedType => selectedType.group == value)
-                                           .map(vehicle => vehicle.type);
+    let groupTypes = this.state.vehicleTypes.filter(selectedType => selectedType.group == value)
+                                            .map(vehicle => vehicle.type);
+    let uniqueVehicleTypes = [...new Set(groupTypes)];
 
-    this.setState({ selectedVehicleGroup: value, selectedVehicleTypes: selectedVehicleTypes });
+    this.setState({ availableVehicleTypes: uniqueVehicleTypes });
+  }
+
+  handleTypeChange = (e) => {
+    let {value} = e.target;
+    let vehicleModels = this.state.vehicleTypes.filter(selectedModel => selectedModel.type == value)
+                                            .map(vehicle => vehicle.model);
+    this.setState({ availableVehicleModels: vehicleModels });
   }
 
   render() {
     let { isLoaded, factions, vehicleTypes } = this.state;
-    const distinctVehicleGroups = [...new Set(vehicleTypes.map(type => type.group))];
+    const uniqueVehicleGroups = [...new Set(vehicleTypes.map(vehicle => vehicle.group))];
 
     if(!isLoaded) {
       return null;
@@ -109,7 +117,7 @@ class AddNew extends Component {
                       <label htmlFor="vehicle-group">Vehicle group:</label>
                       <select className="form-control custom-select" id="vehicle-group" onChange={this.handleGroupChange}>
                         <option hidden disabled selected value> -- vehicle group -- </option>
-                        {distinctVehicleGroups.map(group => (
+                        {uniqueVehicleGroups.map(group => (
                           <option key={group.toString()} value={group}>{ group }</option>
                         ))};
                       </select>
@@ -117,8 +125,9 @@ class AddNew extends Component {
 
                     <div className="col-12 col-md-3">
                       <label htmlFor="vehicle-type">Vehicle type:</label>
-                      <select className="form-control custom-select" id="vehicle-type">
-                        {this.state.selectedVehicleTypes.map(type => (
+                      <select className="form-control custom-select" id="vehicle-type" onChange={this.handleTypeChange}>
+                        <option hidden disabled selected value> -- vehicle type -- </option>
+                        {this.state.availableVehicleTypes.map(type => (
                           <option key={type.toString()} value={type}>{ type }</option>
                         ))};
                       </select>
@@ -126,9 +135,10 @@ class AddNew extends Component {
 
                     <div className="col-12 col-md-3">
                       <label htmlFor="vehicle-model">Vehicle model:</label>
-                      <select className="form-control custom-select" id="vehicle-model" disabled>
-                        {vehicleTypes.map(faction => (
-                          <option key={faction.id} value="">{ faction.name }</option>
+                      <select className="form-control custom-select" id="vehicle-model">
+                        <option hidden disabled selected value> -- vehicle model -- </option>
+                        {this.state.availableVehicleModels.map(model => (
+                          <option key={model.toString()} value={model}>{ model }</option>
                         ))};
                       </select>
                     </div>
