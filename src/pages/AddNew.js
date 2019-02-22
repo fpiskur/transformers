@@ -83,8 +83,8 @@ class AddNew extends Component {
                 <label htmlFor="faction">Faction:</label>
               </div>
               <div className="col-12 col-md-4">
-                <select className="form-control custom-select" id="faction">
-                  <option hidden disabled selected value> -- choose faction -- </option>
+                <select className="form-control custom-select" id="faction" defaultValue="placeholder">
+                  <option hidden disabled value="placeholder"> -- choose faction -- </option>
                   {factions.map(faction => (
                     <option key={faction.id} value={faction.name}>{ faction.name }</option>
                   ))};
@@ -121,6 +121,7 @@ class AddNew extends Component {
                       optionsList = {uniqueVehicleGroups}
                       disabled = {false}
                       method = {this.handleGroupChange}
+                      default = "placeholder"
                     />
 
                     <VehicleSelectList
@@ -128,6 +129,7 @@ class AddNew extends Component {
                       optionsList = {this.state.availableVehicleTypes}
                       disabled = {this.state.typesDisabled}
                       method = {this.handleTypeChange}
+                      default = "placeholder"
                     />
 
                     <VehicleSelectList
@@ -135,6 +137,7 @@ class AddNew extends Component {
                       optionsList = {this.state.availableVehicleModels}
                       disabled = {this.state.modelsDisabled}
                       method = {null}
+                      default = "placeholder"
                     />
 
                   </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TopBar from '../components/TopBar.js';
-import ListItem from '../components/ListItem.js';
+import TransformersListItems from '../components/TransformersListItems.js';
 import './Overview.css';
 
 class Overview extends Component {
@@ -11,11 +11,11 @@ class Overview extends Component {
         <div className="container">
 
           <h1>Transformers Overview</h1>
-          <hr/>
+          <hr />
 
           <TopBar />
-
-          <ListItem />
+          <hr />
+          <TransformersListItems />
 
         </div>
       );

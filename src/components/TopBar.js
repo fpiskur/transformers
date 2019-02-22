@@ -35,9 +35,9 @@ class TopBar extends Component {
               <div className="d-inline" aria-label="Factions">
                 <a href="#" className="filter-btn">All</a>
                 {factions.map(faction => (
-                  <span>
+                  <span key={faction.id}>
                     <span className="link-separator">|</span>
-                    <a key={faction.id} href="#" className="filter-btn">{faction.name}</a>
+                    <a href="#" className="filter-btn">{faction.name}</a>
                   </span>
                 ))}
               </div>
