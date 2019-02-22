@@ -64,7 +64,7 @@ class TransformersListItems extends Component {
               </div>
               <div style={{ lineHeight: 1 }}>
                 <small className="text-muted">
-                  gear: { transformer.gear.join(', ') }
+                  gear: { transformer.gear ? transformer.gear.join(', ') : <span>Inventory empty</span> }
                 </small>
               </div>
             </div>

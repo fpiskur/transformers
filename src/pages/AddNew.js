@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import VehicleSelectList from '../components/VehicleSelectList.js';
-import './AddNew.css';
+import Gear from '../components/Gear.js';
 
 class AddNew extends Component {
 
@@ -96,15 +96,19 @@ class AddNew extends Component {
               <div className="col-12 col-md-2">
                 <label htmlFor="gear">Gear:</label>
               </div>
+
               <div className="col-9 col-md-4 mb-1">
-                <input type="text" className="form-control" id="gear" placeholder="Enter gear"/>
+                <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
               </div>
+
               <div className="col-3 col-md-1">
                 <button type="button" className="btn btn-primary">Add</button>
               </div>
+
               <div className="w-100"></div>
+
               <div className="col-12 col-md-4 offset-md-2">
-                <div id="added-gear"></div>
+                <Gear />
               </div>
             </div>
 
