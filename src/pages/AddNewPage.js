@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import VehicleSelectList from '../components/VehicleSelectList.js';
 import Gear from '../components/Gear.js';
 
-class AddNew extends Component {
+class AddNewPage extends Component {
 
   state = {
     isLoaded: false,
@@ -29,16 +29,16 @@ class AddNew extends Component {
 
   handleGroupChange = (e) => {
     let {value} = e.target;
-    let groupTypes = this.state.vehicleTypes.filter(selectedType => selectedType.group == value)
+    let groupTypes = this.state.vehicleTypes.filter(selectedType => selectedType.group === value)
                                             .map(vehicle => vehicle.type);
     let uniqueVehicleTypes = [...new Set(groupTypes)];
 
-    this.setState({ availableVehicleTypes: uniqueVehicleTypes, typesDisabled: false });
+    this.setState({ availableVehicleTypes: uniqueVehicleTypes, availableVehicleModels: [], typesDisabled: false, modelsDisabled: true });
   }
 
   handleTypeChange = (e) => {
     let {value} = e.target;
-    let vehicleModels = this.state.vehicleTypes.filter(selectedModel => selectedModel.type == value)
+    let vehicleModels = this.state.vehicleTypes.filter(selectedModel => selectedModel.type === value)
                                             .map(vehicle => vehicle.model);
 
     this.setState({ availableVehicleModels: vehicleModels, modelsDisabled: false });
@@ -96,19 +96,17 @@ class AddNew extends Component {
               <div className="col-12 col-md-2">
                 <label htmlFor="gear">Gear:</label>
               </div>
-
-              <div className="col-9 col-md-4 mb-1">
-                <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
-              </div>
-
-              <div className="col-3 col-md-1">
-                <button type="button" className="btn btn-primary">Add</button>
+              <div className="col-12 col-md-4 mb-1">
+                <Gear />
               </div>
 
               <div className="w-100"></div>
 
-              <div className="col-12 col-md-4 offset-md-2">
-                <Gear />
+              <div className="col-9 col-md-4 offset-md-2">
+                <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
+              </div>
+              <div className="col-3 col-md-1">
+                <button type="button" className="btn btn-primary">Add</button>
               </div>
             </div>
 
@@ -164,4 +162,4 @@ class AddNew extends Component {
 
 }
 
-export default AddNew;
+export default AddNewPage;

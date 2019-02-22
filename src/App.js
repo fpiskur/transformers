@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Overview from './pages/Overview.js';
-import AddNew from './pages/AddNew.js';
-import Edit from './pages/Edit.js';
+import OverviewPage from './pages/OverviewPage.js';
+import AddNewPage from './pages/AddNewPage.js';
+import EditPage from './pages/EditPage.js';
 
 class App extends Component {
 
@@ -11,9 +11,9 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route exact path="/" component={Overview} />
-          <Route path="/add-new" component={AddNew} />
-          <Route path="/edit" component={Edit} />
+          <Route exact path="/" component={OverviewPage} />
+          <Route exact path="/add-new" component={AddNewPage} />
+          <Route exact path="/edit" component={EditPage} />
         </div>
       </Router>
     );

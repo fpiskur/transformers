@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import TopBar from '../components/TopBar.js';
 import TransformersListItems from '../components/TransformersListItems.js';
-import './Overview.css';
 
-class Overview extends Component {
+class OverviewPage extends Component {
 
   render() {
 
@@ -23,4 +22,4 @@ class Overview extends Component {
 
 }
 
-export default Overview;
+export default OverviewPage;

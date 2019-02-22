@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import VehicleSelectList from '../components/VehicleSelectList.js';
 import Gear from '../components/Gear.js';
 
-class Edit extends Component {
+class EditPage extends Component {
 
   state = {
     factions: this.props.location.factions,
@@ -41,7 +41,7 @@ class Edit extends Component {
     let {value} = e.target;
     let uniqueVehicleTypes = this.getUniqueVehicleTypes(value);
 
-    this.setState({ availableVehicleTypes: uniqueVehicleTypes, typesDisabled: false });
+    this.setState({ availableVehicleTypes: uniqueVehicleTypes, availableVehicleModels: [], typesDisabled: false, modelsDisabled: true });
   }
 
   handleTypeChange = (e) => {
@@ -68,7 +68,7 @@ class Edit extends Component {
   }
 
   render() {
-    let { isLoaded, factions, vehicles } = this.state;
+    let { factions, vehicles } = this.state;
     const uniqueVehicleGroups = [...new Set(vehicles.map(vehicle => vehicle.group))];
 
     return (
@@ -116,19 +116,17 @@ class Edit extends Component {
             <div className="col-12 col-md-2">
               <label htmlFor="gear">Gear:</label>
             </div>
-
-            <div className="col-9 col-md-4 mb-1">
-              <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
-            </div>
-
-            <div className="col-3 col-md-1">
-              <button type="button" className="btn btn-primary">Add</button>
+            <div className="col-12 col-md-4 mb-1">
+              <Gear gear={this.state.gear} />
             </div>
 
             <div className="w-100"></div>
 
-            <div className="col-12 col-md-4 offset-md-2">
-              <Gear gear={this.state.gear} />
+            <div className="col-9 col-md-4 offset-md-2">
+              <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
+            </div>
+            <div className="col-3 col-md-1">
+              <button type="button" className="btn btn-primary">Add</button>
             </div>
           </div>
 
@@ -183,4 +181,4 @@ class Edit extends Component {
 
 }
 
-export default Edit;
+export default EditPage;
