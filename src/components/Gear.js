@@ -14,7 +14,7 @@ class Gear extends Component {
       return (
         <div>
           {gear.map(item => (
-            <span key={item.indexOf()} className="badge badge-pill badge-secondary mr-1">{item}
+            <span key={item} className="badge badge-pill badge-secondary mr-1">{item}
               <button type="button" className="btn btn-link ml-1 p-0 text-white" style={{ lineHeight: 1, textDecoration: 'none' }}>&times;</button>
             </span>
           ))}

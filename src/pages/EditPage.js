@@ -5,35 +5,38 @@ import Gear from '../components/Gear.js';
 class EditPage extends Component {
 
   state = {
-    factions: this.props.location.factions,
-    vehicles: this.props.location.vehicles,
     availableVehicleTypes: [],
     availableVehicleModels: [],
     typesDisabled: false,
     modelsDisabled: false,
-    name: this.props.location.transformer.name,
-    status: this.props.location.transformer.status,
-    faction: this.props.location.transformer.faction,
-    gear: this.props.location.transformer.gear,
-    vehicleGroup: this.props.location.transformer.vehicleGroup,
-    vehicleType: this.props.location.transformer.vehicleType,
-    vehicleModel: this.props.location.transformer.vehicleModel
+    name: this.props.location.state.transformer.name,
+    status: this.props.location.state.transformer.status,
+    faction: this.props.location.state.transformer.faction,
+    gear: this.props.location.state.transformer.gear,
+    vehicleGroup: this.props.location.state.transformer.vehicleGroup,
+    vehicleType: this.props.location.state.transformer.vehicleType,
+    vehicleModel: this.props.location.state.transformer.vehicleModel
   }
 
+  uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
+
   componentWillMount() {
-    let availableVehicleTypes = this.getUniqueVehicleTypes(this.props.location.transformer.vehicleGroup);
-    let availableVehicleModels = this.getUniqueVehicleModels(this.props.location.transformer.vehicleType);
-    this.setState({ availableVehicleTypes: availableVehicleTypes, availableVehicleModels: availableVehicleModels });
+    let availableVehicleTypes = this.getUniqueVehicleTypes(this.state.vehicleGroup);
+    let availableVehicleModels = this.getUniqueVehicleModels(this.state.vehicleType);
+    this.setState({
+      availableVehicleTypes: availableVehicleTypes,
+      availableVehicleModels: availableVehicleModels
+    });
   }
 
   getUniqueVehicleTypes(vehicleGroup) {
-    let allGroupTypes = this.state.vehicles.filter(selectedType => selectedType.group === vehicleGroup)
+    let allGroupTypes = this.props.vehicleTypes.filter(selectedType => selectedType.group === vehicleGroup)
                                            .map(vehicle => vehicle.type);
     return [...new Set(allGroupTypes)];
   }
 
   getUniqueVehicleModels(vehicleType) {
-    return this.state.vehicles.filter(selectedModel => selectedModel.type === vehicleType)
+    return this.props.vehicleTypes.filter(selectedModel => selectedModel.type === vehicleType)
                               .map(vehicle => vehicle.model);
   }
 
@@ -41,15 +44,23 @@ class EditPage extends Component {
     let {value} = e.target;
     let uniqueVehicleTypes = this.getUniqueVehicleTypes(value);
 
-    this.setState({ availableVehicleTypes: uniqueVehicleTypes, availableVehicleModels: [], typesDisabled: false, modelsDisabled: true });
+    this.setState({
+      availableVehicleTypes: uniqueVehicleTypes,
+      availableVehicleModels: [],
+      typesDisabled: false,
+      modelsDisabled: true
+    });
   }
 
   handleTypeChange = (e) => {
     let {value} = e.target;
-    let vehicleModels = this.state.vehicles.filter(selectedModel => selectedModel.type === value)
+    let vehicleModels = this.props.vehicleTypes.filter(selectedModel => selectedModel.type === value)
                                            .map(vehicle => vehicle.model);
 
-    this.setState({ availableVehicleModels: vehicleModels, modelsDisabled: false });
+    this.setState({
+      availableVehicleModels: vehicleModels,
+      modelsDisabled: false
+    });
   }
 
   handleStatusChange = (e) => {
@@ -68,8 +79,7 @@ class EditPage extends Component {
   }
 
   render() {
-    let { factions, vehicles } = this.state;
-    const uniqueVehicleGroups = [...new Set(vehicles.map(vehicle => vehicle.group))];
+    let { factions } = this.props;
 
     return (
       <div className="container">
@@ -140,7 +150,7 @@ class EditPage extends Component {
 
                   <VehicleSelectList
                     dropDownPlaceholder = " -- vehicle group -- "
-                    optionsList = {uniqueVehicleGroups}
+                    optionsList = {this.uniqueVehicleGroups}
                     disabled = {false}
                     method = {this.handleGroupChange}
                     default = {this.state.vehicleGroup}
@@ -178,7 +188,6 @@ class EditPage extends Component {
       </div>
     );
   }
-
 }
 
 export default EditPage;

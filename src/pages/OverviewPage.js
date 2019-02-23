@@ -12,9 +12,9 @@ class OverviewPage extends Component {
           <h1>Transformers Overview</h1>
           <hr />
 
-          <TopBar />
+          <TopBar factions={this.props.factions} />
           <hr />
-          <TransformersListItems />
+          <TransformersListItems transformers={this.props.transformers} />
 
         </div>
       );
