@@ -24,7 +24,8 @@ class GearForm extends Component {
   handleEnterKey = (e) => {
     let code = e.keyCode || e.which;
     if(code === 13) {
-        this.addGearItem();
+      e.preventDefault();
+      this.addGearItem();
     }
   }
 

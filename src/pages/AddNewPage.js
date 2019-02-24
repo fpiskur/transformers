@@ -1,195 +1,43 @@
 import React, { Component } from 'react';
-import VehicleSelectList from '../components/VehicleSelectList.js';
-import GearForm from '../components/GearForm.js';
+import TransformerForm from '../components/TransformerForm.js';
 
 class AddNewPage extends Component {
 
-  state = {
-    gear: [],
+  addNewInit = {
     // Vehicles
     availableVehicleTypes: [],
     availableVehicleModels: [],
     typesDisabled: true,
     modelsDisabled: true,
-    // Input values
-    inputs: {
-      name: '',
-      status: 'OK',
-      faction: '',
-      vehicleGroup: '',
-      vehicleType: '',
-      vehicleModel: ''
-    },
-    // Validation
-    validationvalidationChecked: false
-  }
-
-  uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
-
-  handleNameChange = (e) => {
-    let {value} = e.target;
-    this.setState(prevState => ({ inputs: { ...prevState.inputs, name: value } }));
-  }
-
-  handleStatusChange = (e) => {
-    let {value} = e.target;
-    this.setState(prevState => ({ inputs: { ...prevState.inputs, status: value } }));
-  }
-
-  handleFactionChange = (e) => {
-    let {value} = e.target;
-    this.setState(prevState => ({ inputs: { ...prevState.inputs, faction: value } }));
-  }
-
-  handleGroupChange = (e) => {
-    let {value} = e.target;
-    let groupTypes = this.props.vehicleTypes.filter(selectedType => selectedType.group === value)
-                                            .map(vehicle => vehicle.type);
-    let uniqueVehicleTypes = [...new Set(groupTypes)];
-
-    this.setState(prevState => ({
-      availableVehicleTypes: uniqueVehicleTypes,
-      availableVehicleModels: [],
-      typesDisabled: false,
-      modelsDisabled: true,
-      inputs: { ...prevState.inputs, vehicleGroup: value }
-    }));
-  }
-
-  handleTypeChange = (e) => {
-    let {value} = e.target;
-    let vehicleModels = this.props.vehicleTypes.filter(selectedModel => selectedModel.type === value)
-                                               .map(vehicle => vehicle.model);
-
-    this.setState(prevState => ({
-      availableVehicleModels: vehicleModels,
-      modelsDisabled: false,
-      inputs: { ...prevState.inputs, vehicleType: value }
-    }));
-  }
-
-  handleModelChange = (e) => {
-    let {value} = e.target;
-    this.setState(prevState => ({ inputs: { ...prevState.inputs, vehicleModel: value } }));
+    // Transformer values
+    name: '',
+    status: 'OK',
+    faction: '',
+    gear: [],
+    vehicleGroup: '',
+    vehicleType: '',
+    vehicleModel: ''
   }
 
   addNewTransformer = (e) => {
     e.preventDefault();
   }
 
-  checkValidation = (e) => {
-    // Give required elements :invalid style to sort of mimic Firefoxes :-moz-ui-invalid
-    document.querySelectorAll("[required]").forEach(element =>  {
-      element.classList.add('required')
-    });
-  }
-
   render() {
-
-    let { factions } = this.props;
 
     return (
       <div className="container">
 
-        <h1>Add New Transformer</h1>
+        <h1>New Transformer</h1>
         <hr/>
 
-        <form onSubmit={this.addNewTransformer}>
-
-          <div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="name">Name:</label>
-            </div>
-            <div className="col-12 col-md-4 mb-3 mb-md-0">
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                placeholder="Enter name"
-                onChange={this.handleNameChange}
-                required
-              />
-            </div>
-            <div className="col-12 col-md-2">
-              <label htmlFor="status">Status:</label>
-            </div>
-            <div className="col-12 col-md-2">
-              <select className="form-control custom-select" id="status" onChange={this.handleStatusChange}>
-                <option value="OK">OK</option>
-                <option value="INJURED">INJURED</option>
-                <option value="MIA">MIA</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="faction">Faction:</label>
-            </div>
-            <div className="col-12 col-md-4">
-              <select
-                className="form-control custom-select"
-                id="faction"
-                onChange={this.handleFactionChange}
-                required
-              >
-                <option hidden value=""> -- choose faction -- </option>
-                {factions.map(faction => (
-                  <option key={faction.id} value={faction.name}>{ faction.name }</option>
-                ))};
-              </select>
-            </div>
-          </div>
-
-          <GearForm gear={this.state.gear} />
-
-          <div className="row mb-4">
-            <div className="col-12">
-              <fieldset className="w-100">
-                <div className="row form-group">
-                  <div className="col-12">
-                    <legend>Vehicle properties</legend>
-                  </div>
-
-                  <VehicleSelectList
-                    dropDownPlaceholder = " -- vehicle group -- "
-                    optionsList = {this.uniqueVehicleGroups}
-                    disabled = {false}
-                    method = {this.handleGroupChange}
-                    default = ""
-                    vehicleId = "vehicleGroup"
-                  />
-
-                  <VehicleSelectList
-                    dropDownPlaceholder = " -- vehicle type -- "
-                    optionsList = {this.state.availableVehicleTypes}
-                    disabled = {this.state.typesDisabled}
-                    method = {this.handleTypeChange}
-                    default = ""
-                    vehicleId = "vehicleType"
-                  />
-
-                  <VehicleSelectList
-                    dropDownPlaceholder = " -- vehicle model -- "
-                    optionsList = {this.state.availableVehicleModels}
-                    disabled = {this.state.modelsDisabled}
-                    method = {this.handleModelChange}
-                    default = ""
-                    vehicleId = "vehicleMode"
-                  />
-
-                </div>
-              </fieldset>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-12 text-center">
-              <button type="submit" className="btn btn-primary btn-lg" onClick={this.checkValidation}>Add Transformer</button>
-            </div>
-          </div>
-
-        </form>
+        <TransformerForm
+          factions={this.props.factions}
+          vehicleTypes={this.props.vehicleTypes}
+          init={this.addNewInit}
+          method={this.addNewTransformer}
+          submitText="Add To List"
+        />
 
       </div>
     );

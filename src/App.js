@@ -48,14 +48,14 @@ class App extends Component {
       return (
         <Router>
           <div className="mt-4">
-            <Route exact path="/" component={() => (
-              <OverviewPage factions={factions} transformers={transformers} />
+            <Route exact path="/" render={(props) => (
+              <OverviewPage {...props} factions={factions} transformers={transformers} />
             )} />
-            <Route exact path="/add-new" component={() => (
-              <AddNewPage factions={factions} vehicleTypes={vehicleTypes} />
+            <Route exact path="/add-new" render={(props) => (
+              <AddNewPage {...props} factions={factions} vehicleTypes={vehicleTypes} />
             )} />
-            <Route exact path="/edit" render={(props) => (
-              <EditPage {...props} factions={factions} vehicleTypes={vehicleTypes} />
+            <Route exact path="/edit/:id" render={(props) => (
+              <EditPage {...props} factions={factions} transformers={transformers} vehicleTypes={vehicleTypes} />
             )} />
           </div>
         </Router>

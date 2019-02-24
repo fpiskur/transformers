@@ -47,12 +47,7 @@ class TransformersListItems extends Component {
 
           <div className="col-md-1">
             <div className="d-flex justify-content-end">
-              <Link type="button" className="btn btn-outline-secondary"
-                to={{
-                  pathname: '/edit',
-                  state: {transformer: transformer}
-                }}>
-              Edit</Link>
+              <Link type="button" className="btn btn-outline-secondary" to={`edit/${transformer.id}`}>Edit</Link>
             </div>
           </div>
         </div>
