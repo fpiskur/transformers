@@ -5,14 +5,40 @@ import GearForm from '../components/GearForm.js';
 class AddNewPage extends Component {
 
   state = {
+    gear: [],
     // Vehicles
     availableVehicleTypes: [],
     availableVehicleModels: [],
     typesDisabled: true,
-    modelsDisabled: true
+    modelsDisabled: true,
+    // Input validation
+    requiredInputs: {
+      valid: false,
+      name: '',
+      status: 'OK',
+      faction: '',
+      vehicleGroup: '',
+      vehicleType: '',
+      vehicleModel: ''
+    }
   }
 
   uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
+
+  handleNameChange = (e) => {
+    let {value} = e.target;
+    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, name: value } }));
+  }
+
+  handleStatusChange = (e) => {
+    let {value} = e.target;
+    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, status: value } }));
+  }
+
+  handleFactionChange = (e) => {
+    let {value} = e.target;
+    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, faction: value } }));
+  }
 
   handleGroupChange = (e) => {
     let {value} = e.target;
@@ -20,12 +46,13 @@ class AddNewPage extends Component {
                                             .map(vehicle => vehicle.type);
     let uniqueVehicleTypes = [...new Set(groupTypes)];
 
-    this.setState({
+    this.setState(prevState => ({
       availableVehicleTypes: uniqueVehicleTypes,
       availableVehicleModels: [],
       typesDisabled: false,
-      modelsDisabled: true
-    });
+      modelsDisabled: true,
+      requiredInputs: { ...prevState.requiredInputs, vehicleGroup: value }
+    }));
   }
 
   handleTypeChange = (e) => {
@@ -33,10 +60,29 @@ class AddNewPage extends Component {
     let vehicleModels = this.props.vehicleTypes.filter(selectedModel => selectedModel.type === value)
                                                .map(vehicle => vehicle.model);
 
-    this.setState({
+    this.setState(prevState => ({
       availableVehicleModels: vehicleModels,
-      modelsDisabled: false
-    });
+      modelsDisabled: false,
+      requiredInputs: { ...prevState.requiredInputs, vehicleType: value }
+    }));
+  }
+
+  handleModelChange = (e) => {
+    let {value} = e.target;
+    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, vehicleModel: value } }));
+  }
+
+  addNewTransformer = (e) => {
+    e.preventDefault();
+    let invalidInputs = false;
+    for (let input in this.state.requiredInputs) {
+      if (this.state.requiredInputs.hasOwnProperty(input) && input !== 'status' && input !== 'valid') {
+        if (!this.state.requiredInputs[input]) {
+          invalidInputs = true;
+        }
+      }
+    }
+    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, valid: true } }));
   }
 
   render() {
@@ -49,20 +95,27 @@ class AddNewPage extends Component {
         <h1>Add New Transformer</h1>
         <hr/>
 
-        <form>
+        <form onSubmit={this.addNewTransformer}>
 
           <div className="row form-group">
             <div className="col-12 col-md-2">
               <label htmlFor="name">Name:</label>
             </div>
             <div className="col-12 col-md-4 mb-3 mb-md-0">
-              <input type="text" className="form-control" id="name" placeholder="Enter name"/>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                placeholder="Enter name"
+                onChange={this.handleNameChange}
+                required
+              />
             </div>
             <div className="col-12 col-md-2">
               <label htmlFor="status">Status:</label>
             </div>
             <div className="col-12 col-md-2">
-              <select className="form-control custom-select" id="status">
+              <select className="form-control custom-select" id="status" onChange={this.handleStatusChange}>
                 <option value="OK">OK</option>
                 <option value="INJURED">INJURED</option>
                 <option value="MIA">MIA</option>
@@ -75,7 +128,13 @@ class AddNewPage extends Component {
               <label htmlFor="faction">Faction:</label>
             </div>
             <div className="col-12 col-md-4">
-              <select className="form-control custom-select" id="faction" defaultValue="placeholder">
+              <select
+                className="form-control custom-select"
+                id="faction"
+                defaultValue="placeholder"
+                onChange={this.handleFactionChange}
+                required
+              >
                 <option hidden disabled value="placeholder"> -- choose faction -- </option>
                 {factions.map(faction => (
                   <option key={faction.id} value={faction.name}>{ faction.name }</option>
@@ -84,25 +143,7 @@ class AddNewPage extends Component {
             </div>
           </div>
 
-          {/*<div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="gear">Gear:</label>
-            </div>
-            <div className="col-12 col-md-4 mb-1">
-              <Gear />
-            </div>
-
-            <div className="w-100"></div>
-
-            <div className="col-9 col-md-4 offset-md-2">
-              <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
-            </div>
-            <div className="col-3 col-md-1">
-              <button type="button" className="btn btn-primary">Add</button>
-            </div>
-          </div>*/}
-
-          <GearForm  />
+          <GearForm gear={this.state.gear} />
 
           <div className="row mb-4">
             <div className="col-12">
@@ -117,7 +158,7 @@ class AddNewPage extends Component {
                     optionsList = {this.uniqueVehicleGroups}
                     disabled = {false}
                     method = {this.handleGroupChange}
-                    default = "placeholder"
+                    default = ""
                   />
 
                   <VehicleSelectList
@@ -125,15 +166,15 @@ class AddNewPage extends Component {
                     optionsList = {this.state.availableVehicleTypes}
                     disabled = {this.state.typesDisabled}
                     method = {this.handleTypeChange}
-                    default = "placeholder"
+                    default = ""
                   />
 
                   <VehicleSelectList
                     dropDownPlaceholder = " -- vehicle model -- "
                     optionsList = {this.state.availableVehicleModels}
                     disabled = {this.state.modelsDisabled}
-                    method = {null}
-                    default = "placeholder"
+                    method = {this.handleModelChange}
+                    default = ""
                   />
 
                 </div>

@@ -39,7 +39,7 @@ class EditPage extends Component {
 
   getUniqueVehicleModels(vehicleType) {
     return this.props.vehicleTypes.filter(selectedModel => selectedModel.type === vehicleType)
-                              .map(vehicle => vehicle.model);
+                                  .map(vehicle => vehicle.model);
   }
 
   handleGroupChange = (e) => {
@@ -57,7 +57,7 @@ class EditPage extends Component {
   handleTypeChange = (e) => {
     let {value} = e.target;
     let vehicleModels = this.props.vehicleTypes.filter(selectedModel => selectedModel.type === value)
-                                           .map(vehicle => vehicle.model);
+                                               .map(vehicle => vehicle.model);
 
     this.setState({
       availableVehicleModels: vehicleModels,
@@ -80,14 +80,8 @@ class EditPage extends Component {
     this.setState({ faction: value });
   }
 
-  deleteGearItem = (index) => {
-    this.setState(state => ({ gear: state.gear.filter(item => state.gear.indexOf(item) !== index) }));
-  }
-
-  addGearItem = () => {
-    let newItem = document.getElementById('gear').value;
-    this.setState(state => ({ gear: state.gear.concat(newItem) }));
-    document.getElementById('gear').value = '';
+  saveChanges = (e) => {
+    e.preventDefault();
   }
 
   render() {
@@ -99,7 +93,7 @@ class EditPage extends Component {
         <h1>Edit Transformer</h1>
         <hr/>
 
-        <form>
+        <form onSubmit={this.saveChanges}>
 
           <div className="row form-group">
             <div className="col-12 col-md-2">
@@ -134,25 +128,7 @@ class EditPage extends Component {
             </div>
           </div>
 
-          {/*<div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="gear">Gear:</label>
-            </div>
-            <div className="col-12 col-md-4 mb-1">
-              <Gear gear={this.state.gear} deleteGearItem={this.deleteGearItem} />
-            </div>
-
-            <div className="w-100"></div>
-
-            <div className="col-9 col-md-4 offset-md-2">
-              <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
-            </div>
-            <div className="col-3 col-md-1">
-              <button type="button" className="btn btn-primary" onClick={this.addGearItem}>Add</button>
-            </div>
-          </div>*/}
-
-          <GearForm gear={this.state.gear} deleteGearItem={this.deleteGearItem} addGearItem={this.addGearItem} />
+          <GearForm gear={this.state.gear} />
 
           <div className="row mb-4">
             <div className="col-12">
