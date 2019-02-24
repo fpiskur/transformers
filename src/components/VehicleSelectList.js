@@ -12,7 +12,7 @@ class VehicleSelectList extends Component {
           disabled={this.props.disabled}
           required
         >
-          <option hidden selected value="">{this.props.dropDownPlaceholder}</option>
+          <option hidden value="">{this.props.dropDownPlaceholder}</option>
           {this.props.optionsList.map(vehicleProp => (
             <option key={vehicleProp.toString()} value={vehicleProp}>{ vehicleProp }</option>
           ))};

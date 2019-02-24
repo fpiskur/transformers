@@ -11,11 +11,19 @@ class AddNewPage extends Component {
     availableVehicleModels: [],
     typesDisabled: true,
     modelsDisabled: true,
-    // Input validation
-    requiredInputs: {
-      valid: false,
+    // Input values
+    inputs: {
       name: '',
       status: 'OK',
+      faction: '',
+      vehicleGroup: '',
+      vehicleType: '',
+      vehicleModel: ''
+    },
+    // Validation
+    checked: false,
+    validationGroup: {
+      name: '',
       faction: '',
       vehicleGroup: '',
       vehicleType: '',
@@ -27,17 +35,17 @@ class AddNewPage extends Component {
 
   handleNameChange = (e) => {
     let {value} = e.target;
-    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, name: value } }));
+    this.setState(prevState => ({ inputs: { ...prevState.inputs, name: value } }));
   }
 
   handleStatusChange = (e) => {
     let {value} = e.target;
-    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, status: value } }));
+    this.setState(prevState => ({ inputs: { ...prevState.inputs, status: value } }));
   }
 
   handleFactionChange = (e) => {
     let {value} = e.target;
-    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, faction: value } }));
+    this.setState(prevState => ({ inputs: { ...prevState.inputs, faction: value } }));
   }
 
   handleGroupChange = (e) => {
@@ -51,7 +59,7 @@ class AddNewPage extends Component {
       availableVehicleModels: [],
       typesDisabled: false,
       modelsDisabled: true,
-      requiredInputs: { ...prevState.requiredInputs, vehicleGroup: value }
+      inputs: { ...prevState.inputs, vehicleGroup: value }
     }));
   }
 
@@ -63,31 +71,44 @@ class AddNewPage extends Component {
     this.setState(prevState => ({
       availableVehicleModels: vehicleModels,
       modelsDisabled: false,
-      requiredInputs: { ...prevState.requiredInputs, vehicleType: value }
+      inputs: { ...prevState.inputs, vehicleType: value }
     }));
   }
 
   handleModelChange = (e) => {
     let {value} = e.target;
-    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, vehicleModel: value } }));
+    this.setState(prevState => ({ inputs: { ...prevState.inputs, vehicleModel: value } }));
   }
 
   addNewTransformer = (e) => {
     e.preventDefault();
-    let invalidInputs = false;
-    for (let input in this.state.requiredInputs) {
-      if (this.state.requiredInputs.hasOwnProperty(input) && input !== 'status' && input !== 'valid') {
-        if (!this.state.requiredInputs[input]) {
-          invalidInputs = true;
+  }
+
+  checkValidation = (e) => {
+    let validationGroup = {
+      name: false,
+      faction: false,
+      vehicleGroup: false,
+      vehicleType: false,
+      vehicleModel: false
+    };
+    for (let input in this.state.inputs) {
+      if (this.state.inputs.hasOwnProperty(input) && input !== 'status') {
+        if (this.state.inputs[input]) {
+          validationGroup[input] = true;
         }
       }
     }
-    this.setState(prevState => ({ requiredInputs: { ...prevState.requiredInputs, valid: true } }));
+    this.setState(prevState => ({ checked: true, validationGroup: validationGroup }));
   }
 
   render() {
 
     let { factions } = this.props;
+    let errorClass = '';
+    if (!this.state.validationGroup.name && this.state.checked) {
+      errorClass = 'red';
+    }
 
     return (
       <div className="container">
@@ -104,7 +125,7 @@ class AddNewPage extends Component {
             <div className="col-12 col-md-4 mb-3 mb-md-0">
               <input
                 type="text"
-                className="form-control"
+                className={"form-control " + errorClass}
                 id="name"
                 placeholder="Enter name"
                 onChange={this.handleNameChange}
@@ -131,11 +152,10 @@ class AddNewPage extends Component {
               <select
                 className="form-control custom-select"
                 id="faction"
-                defaultValue="placeholder"
                 onChange={this.handleFactionChange}
                 required
               >
-                <option hidden disabled value="placeholder"> -- choose faction -- </option>
+                <option hidden value=""> -- choose faction -- </option>
                 {factions.map(faction => (
                   <option key={faction.id} value={faction.name}>{ faction.name }</option>
                 ))};
@@ -184,7 +204,7 @@ class AddNewPage extends Component {
 
           <div className="row">
             <div className="col-12 text-center">
-              <button type="submit" className="btn btn-primary btn-lg">Add Transformer</button>
+              <button type="submit" className="btn btn-primary btn-lg" onClick={this.checkValidation}>Add Transformer</button>
             </div>
           </div>
 
