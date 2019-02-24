@@ -21,27 +21,14 @@ class AddNewPage extends Component {
       vehicleModel: ''
     },
     // Validation
-    checked: false,
-    validationGroup: {
-      name: false,
-      faction: false,
-      vehicleGroup: false,
-      vehicleType: false,
-      vehicleModel: false
-    }
+    validationvalidationChecked: false
   }
 
   uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
 
   handleNameChange = (e) => {
     let {value} = e.target;
-    let nameValid = this.state.checked && value ? true : false;
-    let klasa = this.state.checked && value ? '' : 'red-border';
-    if (!nameValid) { document.getElementById('name').classList.add(klasa); }
-    this.setState(prevState => ({
-      inputs: { ...prevState.inputs, name: value },
-      validationGroup: { ...prevState.validationGroup, name: nameValid }
-    }));
+    this.setState(prevState => ({ inputs: { ...prevState.inputs, name: value } }));
   }
 
   handleStatusChange = (e) => {
@@ -91,15 +78,10 @@ class AddNewPage extends Component {
   }
 
   checkValidation = (e) => {
-    let validationGroup = this.state.validationGroup;
-    for (let input in this.state.inputs) {
-      if (this.state.inputs.hasOwnProperty(input) && input !== 'status') {
-        if (this.state.inputs[input]) {
-          validationGroup[input] = true;
-        }
-      }
-    }
-    this.setState(prevState => ({ checked: true, validationGroup: validationGroup }));
+    // Give required elements :invalid style to sort of mimic Firefoxes :-moz-ui-invalid
+    document.querySelectorAll("[required]").forEach(element =>  {
+      element.classList.add('required')
+    });
   }
 
   render() {
