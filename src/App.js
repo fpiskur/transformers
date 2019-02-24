@@ -49,7 +49,10 @@ class App extends Component {
         <Router>
           <div className="mt-4">
             <Route exact path="/" render={(props) => (
-              <OverviewPage {...props} factions={factions} transformers={transformers} />
+              <OverviewPage {...props}
+                factions={factions}
+                transformers={transformers}
+              />
             )} />
             <Route exact path="/add-new" render={(props) => (
               <AddNewPage {...props} factions={factions} vehicleTypes={vehicleTypes} />

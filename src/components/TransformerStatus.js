@@ -9,7 +9,7 @@ class TransformerStatus extends Component {
     fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${this.props.id}`, {
       method: 'PUT',
       headers: {
-            "Content-Type": "application/json"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ status: status })
     })

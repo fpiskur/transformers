@@ -28,7 +28,11 @@ class TransformersListItems extends Component {
           </div>
 
           <div className="col-md-2">
-            <TransformerStatus id={transformer.id} status={transformer.status} />
+            <TransformerStatus
+            id={transformer.id}
+            status={transformer.status}
+            // updateStatus={this.updateStatus}
+          />
           </div>
 
           <div className="col-md-8">
@@ -39,8 +43,8 @@ class TransformersListItems extends Component {
               </small>
             </div>
             <div style={{ lineHeight: 1 }}>
-              <small className="text-muted">
-                gear: { transformer.gear ? transformer.gear.join(', ') : <span>Inventory empty</span> }
+              <small className="text-muted"> gear:  
+                {transformer.gear ? transformer.gear.join(', ') : <span>Inventory empty</span>}
               </small>
             </div>
           </div>

@@ -6,18 +6,30 @@ class OverviewPage extends Component {
 
   render() {
 
-      return (
-        <div className="container">
+    if(this.props.location.state) {
+      let newListItem = this.props.location.state;
+      if(!containsSameName(newListItem, this.props.transformers)) {
+        this.props.transformers.push(newListItem);
+      }
 
-          <h1>Transformers Overview</h1>
-          <hr />
+      function containsSameName (newItem, transformers) {
+        let sameNames = transformers.filter(transformer => transformer.name === newItem.name);
+        return Boolean(sameNames.toString())
+      }
+    }
 
-          <TopBar factions={this.props.factions} />
-          <hr />
-          <TransformersListItems transformers={this.props.transformers} />
+    return (
+      <div className="container">
 
-        </div>
-      );
+        <h1>Transformers Overview</h1>
+        <hr />
+
+        <TopBar factions={this.props.factions} />
+        <hr />
+        <TransformersListItems transformers={this.props.transformers} />
+
+      </div>
+    );
   }
 
 }

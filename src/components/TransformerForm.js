@@ -102,13 +102,36 @@ class TransformerForm extends Component {
     }
   }
 
+  updateGear = (newGearItems) => {
+    let fullList = [...new Set(this.state.gear.concat(newGearItems))]
+    this.setState({ gear: fullList });
+  }
+
+  deleteGearItem = (index) => {
+    this.setState(state => ({ gear: state.gear.filter(item => state.gear.indexOf(item) !== index) }));
+  }
+
+  addNewTransformer = (e) => {
+    e.preventDefault()
+    let data = this.state;
+    let allowed = [ 'name', 'status', 'faction', 'gear', 'vehicleGroup', 'vehicleType', 'vehicleModel' ];
+    let prepared = Object.keys(data)
+      .filter(key => allowed.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = data[key];
+        return obj;
+      }, {});
+
+    this.props.method(prepared);
+  };
+
   render() {
 
     let { factions } = this.props;
 
     return (
 
-        <form onSubmit={this.props.method}>
+        <form onSubmit={this.addNewTransformer}>
 
           <div className="row form-group">
             <div className="col-12 col-md-2">
@@ -163,7 +186,7 @@ class TransformerForm extends Component {
             </div>
           </div>
 
-          <GearForm gear={this.state.gear} />
+          <GearForm gear={this.state.gear} addGearItems={this.updateGear} deleteGearItem={this.deleteGearItem} />
 
           <div className="row mb-4">
             <div className="col-12">

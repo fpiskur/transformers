@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import TransformerForm from '../components/TransformerForm.js';
 
 class AddNewPage extends Component {
+
+  state = {
+    redirect: false,
+    response: {}
+  }
 
   addNewInit = {
     // Vehicles
@@ -19,12 +25,32 @@ class AddNewPage extends Component {
     vehicleModel: ''
   }
 
-  addNewTransformer = (e) => {
-    e.preventDefault();
+  addNewTransformer = (preparedData) => {
+    fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(preparedData)
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ response: json, redirect: true })
+    })
+    .catch(error => console.error('Error: ', error));
   }
 
   render() {
 
+    let { redirect } = this.state;
+    if(redirect) {
+      return <Redirect to={{
+          pathname: '/',
+          state: this.state.response
+        }}
+      />
+    }
+    
     return (
       <div className="container">
 
@@ -41,9 +67,7 @@ class AddNewPage extends Component {
 
       </div>
     );
-
   }
-
 }
 
 export default AddNewPage;

@@ -43,7 +43,7 @@ class EditPage extends Component {
 
     return (
       <div className="container">
-        <h1>Edit Transformer</h1>
+        <h1 className="d-inline-block">Edit Transformer</h1>
         <hr/>
 
         <TransformerForm
