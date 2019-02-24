@@ -6,7 +6,7 @@ class VehicleSelectList extends Component {
     return (
       <div className="col-12 col-md-3">
         <select
-          className="form-control custom-select"
+          className={"form-control custom-select " + this.props.vehicleClass }
           defaultValue={this.props.default}
           onChange={this.props.method}
           disabled={this.props.disabled}

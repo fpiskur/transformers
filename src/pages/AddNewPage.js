@@ -23,11 +23,11 @@ class AddNewPage extends Component {
     // Validation
     checked: false,
     validationGroup: {
-      name: '',
-      faction: '',
-      vehicleGroup: '',
-      vehicleType: '',
-      vehicleModel: ''
+      name: false,
+      faction: false,
+      vehicleGroup: false,
+      vehicleType: false,
+      vehicleModel: false
     }
   }
 
@@ -35,7 +35,13 @@ class AddNewPage extends Component {
 
   handleNameChange = (e) => {
     let {value} = e.target;
-    this.setState(prevState => ({ inputs: { ...prevState.inputs, name: value } }));
+    let nameValid = this.state.checked && value ? true : false;
+    let klasa = this.state.checked && value ? '' : 'red-border';
+    if (!nameValid) { document.getElementById('name').classList.add(klasa); }
+    this.setState(prevState => ({
+      inputs: { ...prevState.inputs, name: value },
+      validationGroup: { ...prevState.validationGroup, name: nameValid }
+    }));
   }
 
   handleStatusChange = (e) => {
@@ -85,13 +91,7 @@ class AddNewPage extends Component {
   }
 
   checkValidation = (e) => {
-    let validationGroup = {
-      name: false,
-      faction: false,
-      vehicleGroup: false,
-      vehicleType: false,
-      vehicleModel: false
-    };
+    let validationGroup = this.state.validationGroup;
     for (let input in this.state.inputs) {
       if (this.state.inputs.hasOwnProperty(input) && input !== 'status') {
         if (this.state.inputs[input]) {
@@ -105,10 +105,6 @@ class AddNewPage extends Component {
   render() {
 
     let { factions } = this.props;
-    let errorClass = '';
-    if (!this.state.validationGroup.name && this.state.checked) {
-      errorClass = 'red';
-    }
 
     return (
       <div className="container">
@@ -125,7 +121,7 @@ class AddNewPage extends Component {
             <div className="col-12 col-md-4 mb-3 mb-md-0">
               <input
                 type="text"
-                className={"form-control " + errorClass}
+                className="form-control"
                 id="name"
                 placeholder="Enter name"
                 onChange={this.handleNameChange}
@@ -179,6 +175,7 @@ class AddNewPage extends Component {
                     disabled = {false}
                     method = {this.handleGroupChange}
                     default = ""
+                    vehicleId = "vehicleGroup"
                   />
 
                   <VehicleSelectList
@@ -187,6 +184,7 @@ class AddNewPage extends Component {
                     disabled = {this.state.typesDisabled}
                     method = {this.handleTypeChange}
                     default = ""
+                    vehicleId = "vehicleType"
                   />
 
                   <VehicleSelectList
@@ -195,6 +193,7 @@ class AddNewPage extends Component {
                     disabled = {this.state.modelsDisabled}
                     method = {this.handleModelChange}
                     default = ""
+                    vehicleId = "vehicleMode"
                   />
 
                 </div>
