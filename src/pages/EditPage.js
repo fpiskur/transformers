@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import VehicleSelectList from '../components/VehicleSelectList.js';
-import Gear from '../components/Gear.js';
+import GearForm from '../components/GearForm.js';
 
 class EditPage extends Component {
 
   state = {
+    // Vehicles
     availableVehicleTypes: [],
     availableVehicleModels: [],
     typesDisabled: false,
     modelsDisabled: false,
+    // Transformer
     name: this.props.location.state.transformer.name,
     status: this.props.location.state.transformer.status,
     faction: this.props.location.state.transformer.faction,
@@ -78,6 +80,16 @@ class EditPage extends Component {
     this.setState({ faction: value });
   }
 
+  deleteGearItem = (index) => {
+    this.setState(state => ({ gear: state.gear.filter(item => state.gear.indexOf(item) !== index) }));
+  }
+
+  addGearItem = () => {
+    let newItem = document.getElementById('gear').value;
+    this.setState(state => ({ gear: state.gear.concat(newItem) }));
+    document.getElementById('gear').value = '';
+  }
+
   render() {
     let { factions } = this.props;
 
@@ -122,12 +134,12 @@ class EditPage extends Component {
             </div>
           </div>
 
-          <div className="row form-group">
+          {/*<div className="row form-group">
             <div className="col-12 col-md-2">
               <label htmlFor="gear">Gear:</label>
             </div>
             <div className="col-12 col-md-4 mb-1">
-              <Gear gear={this.state.gear} />
+              <Gear gear={this.state.gear} deleteGearItem={this.deleteGearItem} />
             </div>
 
             <div className="w-100"></div>
@@ -136,9 +148,11 @@ class EditPage extends Component {
               <input type="text" className="form-control" id="gear" placeholder="Enter gear item"/>
             </div>
             <div className="col-3 col-md-1">
-              <button type="button" className="btn btn-primary">Add</button>
+              <button type="button" className="btn btn-primary" onClick={this.addGearItem}>Add</button>
             </div>
-          </div>
+          </div>*/}
+
+          <GearForm gear={this.state.gear} deleteGearItem={this.deleteGearItem} addGearItem={this.addGearItem} />
 
           <div className="row mb-4">
             <div className="col-12">

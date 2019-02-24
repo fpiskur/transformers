@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 
 class TransformerStatus extends Component {
 
-  state = { status: this.props.status };
+  state = { status: this.props.status }
 
   handleStatusChange = (e) => {
-    let {value} = e.target;
-    this.setState({ status: value });
+    let status = e.target.value;
+    fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${this.props.id}`, {
+      method: 'PUT',
+      headers: {
+            "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then((myJson) => {
+      this.setState({ status: myJson.status });
+    });
   }
 
   render() {

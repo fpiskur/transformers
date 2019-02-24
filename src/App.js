@@ -9,6 +9,7 @@ class App extends Component {
 
   state = {
     isLoaded: false,
+    error: null,
     factions: [],
     vehicleTypes: [],
     transformers: []
@@ -16,7 +17,13 @@ class App extends Component {
 
   componentDidMount() {
     fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/db')
-      .then(res => res.json())
+      .then(res =>  {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error: Server communication failed. Response not 'OK'.");
+        } 
+      })
       .then(json => {
         this.setState({
           isLoaded: true,
@@ -24,11 +31,16 @@ class App extends Component {
           vehicleTypes: json.vehicleTypes,
           transformers: json.transformers
         })
-      });
+      })
+      .catch(error => this.setState({ error: error }));
   }
 
   render() {
-    let {isLoaded, factions, vehicleTypes, transformers} = this.state;
+    let {isLoaded, error, factions, vehicleTypes, transformers} = this.state;
+
+    if (error) {
+      return <p className="alert alert-danger" role="alert">{error.message}</p>;
+    }
 
     if(!isLoaded) {
       return <div className="text-center" style={{ marginTop: 'calc(100vh / 2 - 3em)' }}>Loading...</div>

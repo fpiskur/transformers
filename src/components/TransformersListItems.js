@@ -28,7 +28,7 @@ class TransformersListItems extends Component {
           </div>
 
           <div className="col-md-2">
-            <TransformerStatus status={transformer.status} />
+            <TransformerStatus id={transformer.id} status={transformer.status} />
           </div>
 
           <div className="col-md-8">

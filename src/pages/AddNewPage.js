@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import VehicleSelectList from '../components/VehicleSelectList.js';
-import Gear from '../components/Gear.js';
+import GearForm from '../components/GearForm.js';
 
 class AddNewPage extends Component {
 
   state = {
+    // Vehicles
     availableVehicleTypes: [],
     availableVehicleModels: [],
     typesDisabled: true,
@@ -83,7 +84,7 @@ class AddNewPage extends Component {
             </div>
           </div>
 
-          <div className="row form-group">
+          {/*<div className="row form-group">
             <div className="col-12 col-md-2">
               <label htmlFor="gear">Gear:</label>
             </div>
@@ -99,7 +100,9 @@ class AddNewPage extends Component {
             <div className="col-3 col-md-1">
               <button type="button" className="btn btn-primary">Add</button>
             </div>
-          </div>
+          </div>*/}
+
+          <GearForm  />
 
           <div className="row mb-4">
             <div className="col-12">
