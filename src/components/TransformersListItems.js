@@ -41,49 +41,55 @@ class TransformersListItems extends Component {
       'Decepticons': decepticonsLogo
     };
 
-    return (
-      transformers.map(transformer => (
-        <div key={transformer.id} className="row mb-1">
-          <div className="col-md-1">
-            <img
-              src={logo[transformer.faction]}
-              style={{ width: '20px', height: '20px' }}
-              data-toggle="tooltip"
-              title={transformer.faction}
-              alt={transformer.faction}
+    if(this.props.notFound) {
+      return (
+        <div className="text-center">Sorry, no results</div>
+      )
+    } else {
+      return (
+        transformers.map(transformer => (
+          <div key={transformer.id} className="row mb-3">
+            <div className="col-md-1">
+              <img
+                src={logo[transformer.faction]}
+                style={{ width: '30px', height: '30px' }}
+                data-toggle="tooltip"
+                title={transformer.faction}
+                alt={transformer.faction}
+              />
+            </div>
+
+            <div className="col-md-2">
+              <TransformerStatus
+              id={transformer.id}
+              status={transformer.status}
+              updateStatus={this.updateStatus}
             />
-          </div>
-
-          <div className="col-md-2">
-            <TransformerStatus
-            id={transformer.id}
-            status={transformer.status}
-            updateStatus={this.updateStatus}
-          />
-          </div>
-
-          <div className="col-md-8">
-            <div>{transformer.name}</div>
-            <div style={{ lineHeight: 1 }}>
-              <small className="text-muted">
-                { transformer.vehicleGroup } / { transformer.vehicleType } / { transformer.vehicleModel }
-              </small>
             </div>
-            <div style={{ lineHeight: 1 }}>
-              <small className="text-muted">gear:&nbsp;
-                {Boolean(transformer.gear[0]) ? transformer.gear.join(', ') : <span>Inventory empty</span>}
-              </small>
-            </div>
-          </div>
 
-          <div className="col-md-1">
-            <div className="d-flex justify-content-end">
-              <Link type="button" className="btn btn-outline-secondary" to={`edit/${transformer.id}`}>Edit</Link>
+            <div className="col-md-8">
+              <div>{transformer.name}</div>
+              <div style={{ lineHeight: 1 }}>
+                <small className="text-muted">
+                  { transformer.vehicleGroup } / { transformer.vehicleType } / { transformer.vehicleModel }
+                </small>
+              </div>
+              <div style={{ lineHeight: 1 }}>
+                <small className="text-muted">gear:&nbsp;
+                  {Boolean(transformer.gear[0]) ? transformer.gear.join(', ') : <span>Inventory empty</span>}
+                </small>
+              </div>
+            </div>
+
+            <div className="col-md-1">
+              <div className="d-flex justify-content-end">
+                <Link type="button" className="btn btn-outline-secondary" to={`edit/${transformer.id}`}>Edit</Link>
+              </div>
             </div>
           </div>
-        </div>
-      ))
-    );
+        ))
+      );
+    }
 
   }
 

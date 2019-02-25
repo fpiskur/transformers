@@ -11,6 +11,16 @@ class TopBar extends Component {
     this.props.filterList(faction);
   }
 
+  searchFor = (e) => {
+    e.preventDefault();
+    let searchTerm = this.state.searchTerm
+    this.props.handleSearch(this.state.searchTerm);
+  }
+
+  handleSearchChange = (e) => {
+    this.setState({ searchTerm: e.target.value });
+  }
+
   render() {
 
     let { factions } = this.props;
@@ -45,17 +55,20 @@ class TopBar extends Component {
         </div>
 
         <div className="col-12 col-md-5">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="search-transformers">Search:</span>
+          <form onSubmit={this.searchFor}>
+            <div className="input-group">
+              <input type="text"
+                className="form-control"
+                placeholder="Search by name..."
+                aria-describedby="search-transformers"
+                value={this.state.searchTerm}
+                onChange={this.handleSearchChange}
+              />
+              <div className="input-group-append">
+                <button type="submit" className="input-group-text" id="search-transformers">Search</button>
+              </div>
             </div>
-            <input type="text"
-              className="form-control"
-              placeholder="search by name..."
-              aria-label="Name"
-              aria-describedby="search-transformers"
-            />
-          </div>
+          </form>
         </div>
 
         <div className="col-12 col-md-2">

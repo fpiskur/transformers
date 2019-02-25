@@ -5,7 +5,8 @@ import TransformersListItems from '../components/TransformersListItems.js';
 class OverviewPage extends Component {
 
   state = {
-    transformers: this.props.transformers
+    transformers: this.props.transformers,
+    notFound: false
   }
 
   componentWillMount() {
@@ -21,6 +22,11 @@ class OverviewPage extends Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({ transformers: [...props.transformers] });
+  }
+
+
   filterList = (faction) => {
     let outputList = this.props.transformers.filter(transformer => transformer.faction === faction);
     if(outputList[0]) {
@@ -30,8 +36,17 @@ class OverviewPage extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({ transformers: [...props.transformers] });
+  handleSearch = (searchTerm) => {
+    let empty = searchTerm ? false : true;
+    let outputList = this.props.transformers.filter(transformer => transformer.name.toLowerCase().startsWith(searchTerm.toLowerCase()));
+    console.log(this.props.transformers.filter(transformer => transformer.name == 'Optimus'))
+    if(outputList[0] ) {
+      this.setState({ transformers: [...outputList], notFound: false });
+    } else if (!outputList[0] && empty) {
+      this.setState({ transformers: [...this.props.transformers], notFound: false });
+    } else {
+      this.setState({ notFound: true });
+    }
   }
 
   sameId (newItem, transformers) {
@@ -47,11 +62,16 @@ class OverviewPage extends Component {
         <h1>Transformers Overview</h1>
         <hr />
 
-        <TopBar factions={this.props.factions} filterList={this.filterList} />
+        <TopBar
+          factions={this.props.factions}
+          filterList={this.filterList}
+          handleSearch={this.handleSearch}
+        />
         <hr />
         <TransformersListItems
           transformers={this.state.transformers}
           updateStatus={this.updateStatus}
+          notFound={this.state.notFound}
         />
 
       </div>
