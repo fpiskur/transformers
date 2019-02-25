@@ -26,7 +26,10 @@ class OverviewPage extends Component {
 
         <TopBar factions={this.props.factions} />
         <hr />
-        <TransformersListItems transformers={this.props.transformers} />
+        <TransformersListItems
+          transformers={this.props.transformers}
+          updateStatus={this.updateStatus}
+        />
 
       </div>
     );

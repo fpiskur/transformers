@@ -6,17 +6,12 @@ class TransformerStatus extends Component {
 
   handleStatusChange = (e) => {
     let status = e.target.value;
-    fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${this.props.id}`, {
-      method: 'PUT',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ status: status })
-    })
-    .then(response => response.json())
-    .then((myJson) => {
-      this.setState({ status: myJson.status });
-    });
+    let id = this.props.id;
+    this.props.updateStatus(status, id);
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({ status: props.status })
   }
 
   render() {

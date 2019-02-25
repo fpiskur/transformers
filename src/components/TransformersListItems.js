@@ -6,9 +6,36 @@ import decepticonsLogo from '../images/decepticons-logo.png';
 
 class TransformersListItems extends Component {
 
-  render() {
+  state = {
+    transformers: this.props.transformers
+  }
 
-    let { transformers } = this.props;
+  updateStatus = (status, id) => {
+    fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(myJson => {
+      this.updateState(myJson)
+    });
+  }
+
+  updateState = (json) => {
+    let transformers = [...this.state.transformers];
+    transformers[json.id].status = json.status;
+    this.setState({ transformers: transformers })
+  }
+
+  componentDidMount() {
+    console.log(this.state.transformers)
+  }
+
+  render() {
+    let { transformers } = this.state;
     let logo = {
       'Autobots': autobotsLogo,
       'Decepticons': decepticonsLogo
@@ -31,7 +58,7 @@ class TransformersListItems extends Component {
             <TransformerStatus
             id={transformer.id}
             status={transformer.status}
-            // updateStatus={this.updateStatus}
+            updateStatus={this.updateStatus}
           />
           </div>
 
