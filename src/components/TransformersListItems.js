@@ -10,6 +10,10 @@ class TransformersListItems extends Component {
     transformers: this.props.transformers
   }
 
+  UNSAFE_componentWillReceiveProps(props) {
+    this.setState({ transformers: props.transformers })
+  }
+
   updateStatus = (status, id) => {
     fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${id}`, {
       method: 'PUT',
@@ -24,14 +28,10 @@ class TransformersListItems extends Component {
     });
   }
 
-  updateState = (json) => {
-    let transformers = [...this.state.transformers];
-    transformers[json.id].status = json.status;
+  updateState = (transformer) => {
+    let transformers = [...this.props.transformers];
+    transformers[transformer.id].status = transformer.status;
     this.setState({ transformers: transformers })
-  }
-
-  componentDidMount() {
-    console.log(this.state.transformers)
   }
 
   render() {
@@ -70,8 +70,8 @@ class TransformersListItems extends Component {
               </small>
             </div>
             <div style={{ lineHeight: 1 }}>
-              <small className="text-muted"> gear:  
-                {transformer.gear ? transformer.gear.join(', ') : <span>Inventory empty</span>}
+              <small className="text-muted">gear:&nbsp;
+                {Boolean(transformer.gear[0]) ? transformer.gear.join(', ') : <span>Inventory empty</span>}
               </small>
             </div>
           </div>

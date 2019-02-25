@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import TransformerForm from '../components/TransformerForm.js';
 
 class EditPage extends Component {
+
+  state = {
+    redirect: false,
+    editedTransformer: {}
+  }
 
   editInit = {
     // Vehicles
@@ -16,13 +22,29 @@ class EditPage extends Component {
     gear: [],
     vehicleGroup: '',
     vehicleType: '',
-    vehicleModel: ''
+    vehicleModel: '',
+    id: ''
+  }
+
+  saveChanges = (preparedData) => {
+    fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${preparedData.id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ...preparedData })
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ editedTransformer: json, redirect: true });
+    })
+    .catch(error => console.log('Error: ID not found on fake server'));
   }
 
   componentWillMount() {
-    let transformerId = Number(this.props.match.params.id);
-    let [ transformer ] = this.props.transformers
-                     .filter(transformer => transformer.id === transformerId);
+    let transformerId = this.props.match.params.id;
+    let [transformer] = this.props.transformers
+                     .filter(transformer => transformer.id == transformerId);
     this.editInit = {
       name: transformer.name,
       status: transformer.status,
@@ -30,16 +52,22 @@ class EditPage extends Component {
       gear: transformer.gear,
       vehicleGroup: transformer.vehicleGroup,
       vehicleType: transformer.vehicleType,
-      vehicleModel: transformer.vehicleModel
+      vehicleModel: transformer.vehicleModel,
+      id: transformer.id
     };
 
   }
 
-  saveChanges = (e) => {
-    e.preventDefault();
-  }
-
   render() {
+
+    let { redirect } = this.state;
+    if(redirect) {
+      return <Redirect to={{
+          pathname: '/',
+          state: this.state.editedTransformer
+        }}
+      />
+    }
 
     return (
       <div className="container">
@@ -50,7 +78,7 @@ class EditPage extends Component {
           factions={this.props.factions}
           vehicleTypes={this.props.vehicleTypes}
           init={this.editInit}
-          method={this.SaveChanges}
+          method={this.saveChanges}
           submitText="Save Changes"
         />
 

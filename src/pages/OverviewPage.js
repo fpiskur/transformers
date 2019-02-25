@@ -4,19 +4,34 @@ import TransformersListItems from '../components/TransformersListItems.js';
 
 class OverviewPage extends Component {
 
-  render() {
+  state = {
+    transformers: this.props.transformers
+  }
 
+  componentWillMount() {
     if(this.props.location.state) {
-      let newListItem = this.props.location.state;
-      if(!containsSameName(newListItem, this.props.transformers)) {
-        this.props.transformers.push(newListItem);
+      let listItem = {...this.props.location.state};
+      let transformers = [...this.props.transformers];
+      if(!this.sameId(listItem, transformers)) {
+        transformers.push(listItem);
+      } else {
+        transformers[listItem.id] = listItem;
       }
-
-      function containsSameName (newItem, transformers) {
-        let sameNames = transformers.filter(transformer => transformer.name === newItem.name);
-        return Boolean(sameNames.toString())
-      }
+      this.props.updateTransformersList(transformers);
+      // this.updateListState(transformers)
     }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({ transformers: [...props.transformers], shouldUpdate: true });
+  }
+
+  sameId (newItem, transformers) {
+    let sameIds = transformers.filter(transformer => transformer.id == newItem.id);
+    return Boolean(sameIds.toString())
+  }
+
+  render() {
 
     return (
       <div className="container">
@@ -27,7 +42,7 @@ class OverviewPage extends Component {
         <TopBar factions={this.props.factions} />
         <hr />
         <TransformersListItems
-          transformers={this.props.transformers}
+          transformers={this.state.transformers}
           updateStatus={this.updateStatus}
         />
 

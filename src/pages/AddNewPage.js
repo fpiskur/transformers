@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import uuid from 'uuid';
 import TransformerForm from '../components/TransformerForm.js';
 
 class AddNewPage extends Component {
 
   state = {
     redirect: false,
-    response: {}
+    newTransformer: {}
   }
 
   addNewInit = {
@@ -22,10 +23,12 @@ class AddNewPage extends Component {
     gear: [],
     vehicleGroup: '',
     vehicleType: '',
-    vehicleModel: ''
+    vehicleModel: '',
+    id: ''
   }
 
   addNewTransformer = (preparedData) => {
+    preparedData.id = uuid.v4();
     fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/', {
       method: 'POST',
       headers: {
@@ -35,7 +38,7 @@ class AddNewPage extends Component {
     })
     .then(response => response.json())
     .then(json => {
-      this.setState({ response: json, redirect: true })
+      this.setState({ newTransformer: json, redirect: true });
     })
     .catch(error => console.error('Error: ', error));
   }
@@ -46,7 +49,7 @@ class AddNewPage extends Component {
     if(redirect) {
       return <Redirect to={{
           pathname: '/',
-          state: this.state.response
+          state: this.state.newTransformer
         }}
       />
     }

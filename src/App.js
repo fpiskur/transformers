@@ -35,6 +35,10 @@ class App extends Component {
       .catch(error => this.setState({ error: error }));
   }
 
+  updateTransformersList = (updatedTransformers) => {
+    this.setState({ transformers: [...updatedTransformers] });
+  }
+
   render() {
     let {isLoaded, error, factions, vehicleTypes, transformers} = this.state;
 
@@ -47,18 +51,26 @@ class App extends Component {
     } else {
       return (
         <Router>
-          <div className="mt-4">
+          <div className="py-4">
             <Route exact path="/" render={(props) => (
               <OverviewPage {...props}
                 factions={factions}
                 transformers={transformers}
+                updateTransformersList={this.updateTransformersList}
               />
             )} />
             <Route exact path="/add-new" render={(props) => (
-              <AddNewPage {...props} factions={factions} vehicleTypes={vehicleTypes} />
+              <AddNewPage {...props}
+                factions={factions}
+                vehicleTypes={vehicleTypes}
+              />
             )} />
             <Route exact path="/edit/:id" render={(props) => (
-              <EditPage {...props} factions={factions} transformers={transformers} vehicleTypes={vehicleTypes} />
+              <EditPage {...props}
+                factions={factions}
+                transformers={transformers}
+                vehicleTypes={vehicleTypes}
+              />
             )} />
           </div>
         </Router>

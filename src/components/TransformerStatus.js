@@ -10,7 +10,7 @@ class TransformerStatus extends Component {
     this.props.updateStatus(status, id);
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({ status: props.status })
   }
 

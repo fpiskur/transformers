@@ -17,7 +17,8 @@ class TransformerForm extends Component {
     gear: this.props.init.gear,
     vehicleGroup: this.props.init.vehicleGroup,
     vehicleType: this.props.init.vehicleType,
-    vehicleModel: this.props.init.vehicleModel
+    vehicleModel: this.props.init.vehicleModel,
+    id: this.props.init.id
   }
 
   uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
@@ -111,17 +112,16 @@ class TransformerForm extends Component {
     this.setState(state => ({ gear: state.gear.filter(item => state.gear.indexOf(item) !== index) }));
   }
 
-  addNewTransformer = (e) => {
+  submitTransformer = (e) => {
     e.preventDefault()
     let data = this.state;
-    let allowed = [ 'name', 'status', 'faction', 'gear', 'vehicleGroup', 'vehicleType', 'vehicleModel' ];
+    let allowed = [ 'name', 'status', 'faction', 'gear', 'vehicleGroup', 'vehicleType', 'vehicleModel', 'id' ];
     let prepared = Object.keys(data)
       .filter(key => allowed.includes(key))
       .reduce((obj, key) => {
         obj[key] = data[key];
         return obj;
       }, {});
-
     this.props.method(prepared);
   };
 
@@ -131,7 +131,7 @@ class TransformerForm extends Component {
 
     return (
 
-        <form onSubmit={this.addNewTransformer}>
+        <form onSubmit={this.submitTransformer}>
 
           <div className="row form-group">
             <div className="col-12 col-md-2">

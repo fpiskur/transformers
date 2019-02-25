@@ -25,6 +25,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "uuid": "^3.3.2"
   }
 }
