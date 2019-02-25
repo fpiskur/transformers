@@ -45,16 +45,7 @@ class EditPage extends Component {
     let transformerId = this.props.match.params.id;
     let [transformer] = this.props.transformers
                      .filter(transformer => transformer.id == transformerId);
-    this.editInit = {
-      name: transformer.name,
-      status: transformer.status,
-      faction: transformer.faction,
-      gear: transformer.gear,
-      vehicleGroup: transformer.vehicleGroup,
-      vehicleType: transformer.vehicleType,
-      vehicleModel: transformer.vehicleModel,
-      id: transformer.id
-    };
+    this.editInit = { ...transformer };
 
   }
 

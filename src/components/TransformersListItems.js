@@ -23,8 +23,8 @@ class TransformersListItems extends Component {
       body: JSON.stringify({ status: status })
     })
     .then(response => response.json())
-    .then(myJson => {
-      this.updateState(myJson)
+    .then(json => {
+      this.updateState(json)
     });
   }
 

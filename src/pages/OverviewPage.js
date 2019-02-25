@@ -37,12 +37,10 @@ class OverviewPage extends Component {
   }
 
   handleSearch = (searchTerm) => {
-    let empty = searchTerm ? false : true;
     let outputList = this.props.transformers.filter(transformer => transformer.name.toLowerCase().startsWith(searchTerm.toLowerCase()));
-    console.log(this.props.transformers.filter(transformer => transformer.name == 'Optimus'))
     if(outputList[0] ) {
       this.setState({ transformers: [...outputList], notFound: false });
-    } else if (!outputList[0] && empty) {
+    } else if (!outputList[0] && !searchTerm) {
       this.setState({ transformers: [...this.props.transformers], notFound: false });
     } else {
       this.setState({ notFound: true });
