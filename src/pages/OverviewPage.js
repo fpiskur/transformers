@@ -18,12 +18,20 @@ class OverviewPage extends Component {
         transformers[listItem.id] = listItem;
       }
       this.props.updateTransformersList(transformers);
-      // this.updateListState(transformers)
+    }
+  }
+
+  filterList = (faction) => {
+    let outputList = this.props.transformers.filter(transformer => transformer.faction === faction);
+    if(outputList[0]) {
+      this.setState({ transformers: [...outputList] });
+    } else {
+      this.setState({ transformers: [...this.props.transformers] })
     }
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ transformers: [...props.transformers], shouldUpdate: true });
+    this.setState({ transformers: [...props.transformers] });
   }
 
   sameId (newItem, transformers) {
@@ -39,7 +47,7 @@ class OverviewPage extends Component {
         <h1>Transformers Overview</h1>
         <hr />
 
-        <TopBar factions={this.props.factions} />
+        <TopBar factions={this.props.factions} filterList={this.filterList} />
         <hr />
         <TransformersListItems
           transformers={this.state.transformers}

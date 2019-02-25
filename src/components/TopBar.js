@@ -4,6 +4,13 @@ import './TopBar.css';
 
 class TopBar extends Component {
 
+  state = { searchTerm: '' }
+
+  filterList = (e) => {
+    let faction = e.target.value;
+    this.props.filterList(faction);
+  }
+
   render() {
 
     let { factions } = this.props;
@@ -14,12 +21,22 @@ class TopBar extends Component {
           <div id="filter" className="d-flex align-items-center">
             <span className="mr-3">Filter:</span>
             <div className="d-inline" aria-label="Factions">
-              <a href="#" className="filter-btn">All</a>
+              <button
+                type="button"
+                value="All"
+                className="btn btn-link p-0"
+                onClick={this.filterList.bind(this)}
+              >All</button>
 
               {factions.map(faction => (
                 <span key={faction.id}>
                   <span className="link-separator">|</span>
-                  <a href="#" className="filter-btn">{faction.name}</a>
+                  <button
+                    type="button"
+                    value={faction.name}
+                    className="btn btn-link p-0"
+                    onClick={this.filterList.bind(this)}
+                  >{faction.name}</button>
                 </span>
               ))}
 
