@@ -24,8 +24,8 @@ class OverviewPage extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({ transformers: [...props.transformers] });
+    // this.forceUpdate();
   }
-
 
   filterList = (faction) => {
     let outputList = this.props.transformers.filter(transformer => transformer.faction === faction);
@@ -47,8 +47,8 @@ class OverviewPage extends Component {
     }
   }
 
-  sameId (newItem, transformers) {
-    let sameIds = transformers.filter(transformer => transformer.id == newItem.id);
+  sameId (newTransformer, transformers) {
+    let sameIds = transformers.filter(transformer => transformer.id == newTransformer.id);
     return Boolean(sameIds.toString())
   }
 
