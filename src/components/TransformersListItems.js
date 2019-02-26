@@ -25,7 +25,8 @@ class TransformersListItems extends Component {
     .then(response => response.json())
     .then(json => {
       this.updateState(json)
-    });
+    })
+    .catch(error => console.error('Error: ', error));
   }
 
   updateState = (transformer) => {
