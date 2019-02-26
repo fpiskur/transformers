@@ -9,11 +9,12 @@ class OverviewPage extends Component {
     notFound: false
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {   // deprecated!
+    // Update state.transformers when getting updated props from Route in App.js
     this.setState({ transformers: [...props.transformers] });
-    // this.forceUpdate();
   }
 
+  // Filter the list of transformers according to choosen faction and update state.transformers
   filterList = (faction) => {
     let outputList = this.props.transformers.filter(transformer => transformer.faction === faction);
     if(outputList[0]) {
@@ -23,13 +24,14 @@ class OverviewPage extends Component {
     }
   }
 
+  // Filter the list of transformers according to search term and update state.transformers
   handleSearch = (searchTerm) => {
     let outputList = this.props.transformers.filter(transformer => transformer.name.toLowerCase().startsWith(searchTerm.toLowerCase()));
-    if(outputList[0] ) {
+    if(outputList[0] ) {   // result exists
       this.setState({ transformers: [...outputList], notFound: false });
-    } else if (!outputList[0] && !searchTerm) {
+    } else if (!outputList[0] && !searchTerm) {   // empty search field
       this.setState({ transformers: [...this.props.transformers], notFound: false });
-    } else {
+    } else {   // not found
       this.setState({ notFound: true });
     }
   }

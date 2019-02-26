@@ -4,13 +4,15 @@ class TransformerStatus extends Component {
 
   state = { status: this.props.status }
 
+  // Call updateStatus() from TransformersListItems.js and pass selected status and transformer id
   handleStatusChange = (e) => {
     let status = e.target.value;
     let id = this.props.id;
     this.props.updateStatus(status, id);
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {   // deprecated!
+    // Update state.status when getting updated props from TransformersListItems.js
     this.setState({ status: props.status })
   }
 

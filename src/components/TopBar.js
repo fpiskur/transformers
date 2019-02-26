@@ -8,18 +8,20 @@ class TopBar extends Component {
     factionFilter: 'All'
   }
 
+  // Call filterList() from OverviewPage and pass selected faction, update state (for active class)
   filterList = (e) => {
     let faction = e.target.value;
     this.props.filterList(faction);
     this.setState({ factionFilter: faction });
-    this.forceUpdate();
   }
 
+  // Call handleSearch() from OverviewPage and pass search term
   searchFor = (e) => {
     e.preventDefault();
     this.props.handleSearch(this.state.searchTerm);
   }
 
+  // Update state.searchTerm on input
   handleSearchChange = (e) => {
     this.setState({ searchTerm: e.target.value });
   }

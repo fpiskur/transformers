@@ -7,6 +7,7 @@ class GearForm extends Component {
     gear: this.props.gear
   }  
 
+  // Prevent from submitting a form and call addGearItems() on "Enter"
   handleEnterKey = (e) => {
     let code = e.keyCode || e.which;
     if(code === 13) {
@@ -15,10 +16,11 @@ class GearForm extends Component {
     }
   }
 
+  // Pass new gear items to addGearItems in TransformerForm.js and reset input value
   addGearItems = (e) => {
     let newItems = document.getElementById('gear').value.trim();
     if(newItems) {
-      newItems = newItems.split(/,\s*/);
+      newItems = newItems.split(/,\s*/);   // Allow adding multiple items separated by comma
       this.props.addGearItems(newItems);
       document.getElementById('gear').value = '';
     }

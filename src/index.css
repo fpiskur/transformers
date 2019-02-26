@@ -1,7 +1,9 @@
+/* Required fields in TransformerForm.js */
 .required:invalid {
   border-color: red;
 }
 
+/* Filter in TopBar.js */
 .active-filter {
   text-decoration: underline;
 }

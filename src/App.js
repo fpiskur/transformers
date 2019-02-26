@@ -16,6 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Fetch data from JSON server
     fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/db')
       .then(res =>  {
         if (res.ok) {
@@ -35,11 +36,13 @@ class App extends Component {
       .catch(error => this.setState({ error: error }));
   }
 
+  // Update transformers state sent from AddNewPage or EditPage
   updateTransformersList = (updatedTransformers) => {
     this.setState({ transformers: [...updatedTransformers] });
   }
 
   render() {
+    
     let {isLoaded, error, factions, vehicleTypes, transformers} = this.state;
 
     if (error) {

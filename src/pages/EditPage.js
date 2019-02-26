@@ -8,6 +8,7 @@ class EditPage extends Component {
     redirect: false
   }
 
+  // Initial values for the TransformerForm
   editInit = {
     // Vehicles
     availableVehicleTypes: [],
@@ -25,15 +26,11 @@ class EditPage extends Component {
     id: ''
   }
 
+  // PUT edited transformer to JSON server
   saveChanges = (preparedData) => {
     let transformers = [...this.props.transformers];
-    let editedTransformerKey;
-    for (let i = 0; i < transformers.length; i++) {
-      if (transformers[i].id === preparedData.id) {
-        editedTransformerKey = i;
-      }
-    }
-    transformers[editedTransformerKey] = preparedData;
+    let transformerKey = this.getTransformerKey(preparedData, transformers);
+    transformers[transformerKey] = preparedData;   // mutating a list to keep the order of transformers (and TransformerStatus working)
 
     fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${preparedData.id}`, {
       method: 'PUT',
@@ -44,14 +41,24 @@ class EditPage extends Component {
     })
     .then(response => response.json())
     .then(json => {
-      // this.setState({ editedTransformer: json, redirect: true });
       this.setState({ redirect: true });
-      this.props.updateTransformersList(transformers);
+      this.props.updateTransformersList(transformers); 
     })
     .catch(error => console.error('Error: ID not found on fake server'));
   }
 
-  componentWillMount() {
+  // Return index position of transformer in allTransformers
+  getTransformerKey = (transformer, allTransformers) => {
+    for (let i = 0; i < allTransformers.length; i++) {
+      if (allTransformers[i].id === transformer.id) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  UNSAFE_componentWillMount() {   // deprecated!
+    // get transformer data from TransformersListItem and update editInit
     let transformerId = Number(this.props.match.params.id);
     let [transformer] = this.props.transformers
                      .filter(transformer => transformer.id === transformerId);

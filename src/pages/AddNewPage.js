@@ -8,6 +8,7 @@ class AddNewPage extends Component {
     redirect: false
   }
 
+  // Initial values for the TransformerForm
   addNewInit = {
     // Vehicles
     availableVehicleTypes: [],
@@ -25,6 +26,7 @@ class AddNewPage extends Component {
     id: ''
   }
 
+  // Generate id (next biggest number)
   getNewId = () => {
     let transformers = [...this.props.transformers];
     let highestId = transformers.map(transformer => transformer.id)
@@ -32,8 +34,9 @@ class AddNewPage extends Component {
     return highestId + 1;
   }
 
+  // POST new transformer to JSON server
   addNewTransformer = (preparedData) => {
-    preparedData.id = this.getNewId();
+    preparedData.id = this.getNewId();   // asign transformers id
     fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/', {
       method: 'POST',
       headers: {
@@ -43,7 +46,6 @@ class AddNewPage extends Component {
     })
     .then(response => response.json())
     .then(json => {
-      // this.setState(prevState => { transformers: [...prevState, json], redirect: true });
       this.setState({ redirect: true });
       this.props.updateTransformersList([...this.props.transformers, json]);
     })

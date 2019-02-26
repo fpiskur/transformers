@@ -10,10 +10,12 @@ class TransformersListItems extends Component {
     transformers: this.props.transformers
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {   // deprecated!
+    // Update state.transformers when getting updated props from OverviewPage.js
     this.setState({ transformers: props.transformers })
   }
 
+  // Handle status update from TransformerStatus.js
   updateStatus = (status, id) => {
     fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${id}`, {
       method: 'PUT',
@@ -29,6 +31,7 @@ class TransformersListItems extends Component {
     .catch(error => console.error('Error: ', error));
   }
 
+  // Update state.transformers after status change
   updateState = (transformer) => {
     let transformers = [...this.props.transformers];
     transformers[transformer.id].status = transformer.status;
@@ -44,7 +47,7 @@ class TransformersListItems extends Component {
 
     if(this.props.notFound) {
       return (
-        <div className="text-center">Sorry, no results</div>
+        <div className="text-center py-3">Sorry, no results</div>
       )
     } else {
       return (

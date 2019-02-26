@@ -21,9 +21,8 @@ class TransformerForm extends Component {
     id: this.props.init.id
   }
 
-  uniqueVehicleGroups = [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))]
-
-  componentWillMount() {
+  UNSAFE_componentWillMount() {   // deprecated!
+    // Update state of vehicle properties from props
     let availableVehicleTypes = this.getUniqueVehicleTypes(this.state.vehicleGroup);
     let availableVehicleModels = this.getUniqueVehicleModels(this.state.vehicleType);
     this.setState({
@@ -32,6 +31,10 @@ class TransformerForm extends Component {
       vehicleType: this.props.init.vehicleType,
       vehicleModel: this.props.init.vehicleModel
     });
+  }
+
+  getUniqueVehicleGroups() {
+    return [...new Set(this.props.vehicleTypes.map(vehicle => vehicle.group))];
   }
 
   getUniqueVehicleTypes(vehicleGroup) {
@@ -89,13 +92,14 @@ class TransformerForm extends Component {
     this.setState({ vehicleModel: value });
   }
 
+  // Give required elements :invalid style to mimic Firefox's :-moz-ui-invalid
   checkValidation = (e) => {
-    // Give required elements :invalid style to sort of mimic Firefox's :-moz-ui-invalid
     document.querySelectorAll("[required]").forEach(element =>  {
       element.classList.add('required')
     });
   }
 
+  // Prevent from submitting a form on "Enter"
   handleEnterKey = (e) => {
     let code = e.keyCode || e.which;
     if(code === 13) {
@@ -112,6 +116,7 @@ class TransformerForm extends Component {
     this.setState(state => ({ gear: state.gear.filter(item => state.gear.indexOf(item) !== index) }));
   }
 
+  // Collect data from state and pass it to method() in AddNewPage or EditPage
   submitTransformer = (e) => {
     e.preventDefault()
     let data = this.state;
@@ -202,7 +207,7 @@ class TransformerForm extends Component {
 
                   <VehicleSelectList
                     dropDownPlaceholder = " -- vehicle group -- "
-                    optionsList = {this.uniqueVehicleGroups}
+                    optionsList = {this.getUniqueVehicleGroups()}
                     disabled = {false}
                     method = {this.handleGroupChange}
                     default = {this.state.vehicleGroup}
