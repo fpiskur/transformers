@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import uuid from 'uuid';
 import TransformerForm from '../components/TransformerForm.js';
 
 class AddNewPage extends Component {
@@ -27,8 +26,15 @@ class AddNewPage extends Component {
     id: ''
   }
 
+  getNewId = () => {
+    let transformers = this.props.transformers;
+    let highestId = transformers.map(transformer => transformer.id)
+                                .reduce((highest, current) => Math.max(highest, current), -Infinity);
+    return highestId;
+  }
+
   addNewTransformer = (preparedData) => {
-    preparedData.id = uuid.v4();
+    preparedData.id = this.getNewId();
     fetch('https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/', {
       method: 'POST',
       headers: {

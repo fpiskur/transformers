@@ -63,6 +63,7 @@ class App extends Component {
               <AddNewPage {...props}
                 factions={factions}
                 vehicleTypes={vehicleTypes}
+                transformers={transformers}
               />
             )} />
             <Route exact path="/edit/:id" render={(props) => (
