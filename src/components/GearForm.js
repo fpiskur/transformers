@@ -27,23 +27,25 @@ class GearForm extends Component {
   render() {
     
     return (
-      <div className="row form-group">
-        <div className="col-12 col-md-2">
-          <label htmlFor="gear">Gear:</label>
-        </div>
-        <div className="col-12 col-md-4 mb-1">
-          <Gear gear={this.props.gear} deleteGearItem={this.props.deleteGearItem} />
-        </div>
+        <div className="row form-group">
+          <div className="col-12 col-md-3">
+            <label htmlFor="gear">Gear:</label>
+          </div>
+          <div className="col-12 col-md-9 mb-1">
+            <Gear gear={this.props.gear} deleteGearItem={this.props.deleteGearItem} />
+          </div>
 
-        <div className="w-100"></div>
+          <div className="w-100"></div>
 
-        <div className="col-9 col-md-4 offset-md-2">
-          <input type="text" className="form-control" id="gear" onKeyPress={this.handleEnterKey} placeholder="Enter gear item"/>
+          <div className="col-12 col-md-9 offset-md-3">
+            <div className="input-group">
+              <input type="text" className="form-control" id="gear" onKeyPress={this.handleEnterKey} placeholder="Enter gear item"/>
+              <div className="input-group-append">
+                <button type="button" className="btn btn-primary" onClick={this.addGearItems}>Add</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="col-3 col-md-1">
-          <button type="button" className="btn btn-primary" onClick={this.addGearItems}>Add</button>
-        </div>
-      </div>
     );
 
   }

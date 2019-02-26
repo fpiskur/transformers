@@ -4,7 +4,7 @@ class VehicleSelectList extends Component {
 
   render() {
     return (
-      <div className="col-12 col-md-3">
+      <div className="col-12 mb-3">
         <select
           className={"form-control custom-select " + this.props.vehicleClass }
           defaultValue={this.props.default}

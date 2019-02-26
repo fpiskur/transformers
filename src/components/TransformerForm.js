@@ -132,68 +132,72 @@ class TransformerForm extends Component {
     return (
 
         <form onSubmit={this.submitTransformer}>
+          <div className="row my-5">
+            <div className="col-12 col-md-7 col-lg-6">
+              <div className="row form-group">
+                <div className="col-12 col-md-3">
+                  <label htmlFor="name">Name: <abbr title="Required">*</abbr></label>
+                </div>
+                <div className="col-12 col-md-9">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    placeholder="Enter name"
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
+                    onKeyPress={this.handleEnterKey}
+                    required
+                  />
+                </div>
+              </div>
 
-          <div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="name">Name: <abbr title="Required">*</abbr></label>
-            </div>
-            <div className="col-12 col-md-4 mb-3 mb-md-0">
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                placeholder="Enter name"
-                value={this.state.name}
-                onChange={this.handleNameChange}
-                onKeyPress={this.handleEnterKey}
-                required
-              />
-            </div>
-            <div className="col-12 col-md-2">
-              <label htmlFor="status">Status: <abbr title="Required">*</abbr></label>
-            </div>
-            <div className="col-12 col-md-2">
-              <select
-                className="form-control custom-select"
-                id="status"
-                value={this.state.status}
-                onChange={this.handleStatusChange}
-              >
-                <option value="OK">OK</option>
-                <option value="INJURED">INJURED</option>
-                <option value="MIA">MIA</option>
-              </select>
-            </div>
-          </div>
+              <div className="row form-group">
+                <div className="col-12 col-md-3">
+                  <label htmlFor="status">Status: <abbr title="Required">*</abbr></label>
+                </div>
+                <div className="col-12 col-md-9">
+                  <select
+                    className="form-control custom-select"
+                    id="status"
+                    value={this.state.status}
+                    onChange={this.handleStatusChange}
+                  >
+                    <option value="OK">OK</option>
+                    <option value="INJURED">INJURED</option>
+                    <option value="MIA">MIA</option>
+                  </select>
+                </div>
+              </div>
 
-          <div className="row form-group">
-            <div className="col-12 col-md-2">
-              <label htmlFor="faction">Faction: <abbr title="Required">*</abbr></label>
-            </div>
-            <div className="col-12 col-md-4">
-              <select
-                className="form-control custom-select"
-                id="faction"
-                value={this.state.faction}
-                onChange={this.handleFactionChange}
-                required
-              >
-                <option hidden value=""> -- choose faction -- </option>
-                {factions.map(faction => (
-                  <option key={faction.id} value={faction.name}>{ faction.name }</option>
-                ))};
-              </select>
-            </div>
-          </div>
+              <div className="row form-group">
+                <div className="col-12 col-md-3">
+                  <label htmlFor="faction">Faction: <abbr title="Required">*</abbr></label>
+                </div>
+                <div className="col-12 col-md-9">
+                  <select
+                    className="form-control custom-select"
+                    id="faction"
+                    value={this.state.faction}
+                    onChange={this.handleFactionChange}
+                    required
+                  >
+                    <option hidden value=""> -- choose faction -- </option>
+                    {factions.map(faction => (
+                      <option key={faction.id} value={faction.name}>{ faction.name }</option>
+                    ))};
+                  </select>
+                </div>
+              </div>
 
-          <GearForm gear={this.state.gear} addGearItems={this.updateGear} deleteGearItem={this.deleteGearItem} />
+              <GearForm gear={this.state.gear} addGearItems={this.updateGear} deleteGearItem={this.deleteGearItem} />
+            </div>
 
-          <div className="row mb-4">
-            <div className="col-12">
-              <fieldset className="w-100">
-                <div className="row form-group">
-                  <div className="col-12">
-                    <legend>Vehicle properties <abbr title="Required">*</abbr></legend>
+            <div className="col-12 col-md-5 col-lg-6">
+              <div className="row form-group">
+                <fieldset className="w-100">
+                  <div className="col-12 mb-3" style={{ height: '38px' }}>
+                    <legend><small>Vehicle properties <abbr title="Required">*</abbr></small></legend>
                   </div>
 
                   <VehicleSelectList
@@ -220,9 +224,10 @@ class TransformerForm extends Component {
                     default = {this.state.vehicleModel}
                   />
 
-                </div>
-              </fieldset>
+                </fieldset>
+              </div>
             </div>
+
           </div>
 
           <div className="row">

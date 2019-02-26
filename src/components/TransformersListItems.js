@@ -48,18 +48,20 @@ class TransformersListItems extends Component {
     } else {
       return (
         transformers.map(transformer => (
-          <div key={transformer.id} className="row mb-3">
-            <div className="col-md-1">
-              <img
-                src={logo[transformer.faction]}
-                style={{ width: '30px', height: '30px' }}
-                data-toggle="tooltip"
-                title={transformer.faction}
-                alt={transformer.faction}
-              />
+          <div key={transformer.id} className="row py-3 border-bottom">
+            <div className="col-3 col-sm-1 d-flex align-items-center justify-content-center order-1">
+              <div className="pb-3 pb-sm-0">
+                <img
+                  src={logo[transformer.faction]}
+                  style={{ width: '30px', height: '30px' }}
+                  data-toggle="tooltip"
+                  title={transformer.faction}
+                  alt={transformer.faction}
+                />
+              </div>
             </div>
 
-            <div className="col-md-2">
+            <div className="col-6 col-sm-4 col-md-3 offset-3 offset-sm-0 d-flex align-items-center order-3 order-sm-2">
               <TransformerStatus
               id={transformer.id}
               status={transformer.status}
@@ -67,7 +69,7 @@ class TransformersListItems extends Component {
             />
             </div>
 
-            <div className="col-md-8">
+            <div className="col-9 col-sm-5 col-md-6 order-2 order-sm-3">
               <div>{transformer.name}</div>
               <div style={{ lineHeight: 1 }}>
                 <small className="text-muted">
@@ -79,9 +81,10 @@ class TransformersListItems extends Component {
                   {Boolean(transformer.gear[0]) ? transformer.gear.join(', ') : <span>Inventory empty</span>}
                 </small>
               </div>
+              <div className="d-block d-sm-none w-100 mb-3"></div>
             </div>
 
-            <div className="col-md-1">
+            <div className="col-3 col-sm-2 d-flex align-items-center justify-content-end order-4">
               <div className="d-flex justify-content-end">
                 <Link type="button" className="btn btn-outline-secondary" to={`edit/${transformer.id}`}>Edit</Link>
               </div>

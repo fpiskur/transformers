@@ -65,7 +65,7 @@ class OverviewPage extends Component {
           filterList={this.filterList}
           handleSearch={this.handleSearch}
         />
-        <hr />
+        <hr className="mb-0" />
         <TransformersListItems
           transformers={this.state.transformers}
           updateStatus={this.updateStatus}

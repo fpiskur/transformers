@@ -13,7 +13,6 @@ class TopBar extends Component {
 
   searchFor = (e) => {
     e.preventDefault();
-    let searchTerm = this.state.searchTerm
     this.props.handleSearch(this.state.searchTerm);
   }
 
@@ -27,7 +26,7 @@ class TopBar extends Component {
 
     return (
       <div className="row">
-        <div className="col-12 col-md-5">
+        <div className="col-12 col-sm-9 col-md-9 col-lg-4 order-1 order-md-2 order-lg-2 mb-3 mb-sm-0">
           <div id="filter" className="d-flex align-items-center">
             <span className="mr-3">Filter:</span>
             <div className="d-inline" aria-label="Factions">
@@ -54,7 +53,7 @@ class TopBar extends Component {
           </div>
         </div>
 
-        <div className="col-12 col-md-5">
+        <div className="col-12 col-lg-6 order-2 order-md-3 order-lg-2">
           <form onSubmit={this.searchFor}>
             <div className="input-group">
               <input type="text"
@@ -71,9 +70,9 @@ class TopBar extends Component {
           </form>
         </div>
 
-        <div className="col-12 col-md-2">
+        <div className="col-12 col-sm-3 col-lg-2 order-sm-1 order-md-2 order-lg-3 mb-3 mb-lg-0">
           <div className="d-flex justify-content-end">
-            <Link type="button" className="btn btn-primary" to="/add-new">Add New</Link>
+            <Link type="button" className="btn btn-primary w-100" to="/add-new">Add New</Link>
           </div>
         </div>
       </div>
