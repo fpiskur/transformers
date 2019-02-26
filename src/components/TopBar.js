@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './TopBar.css';
 
 class TopBar extends Component {
 
-  state = { searchTerm: '' }
+  state = {
+    searchTerm: '',
+    factionFilter: 'All'
+  }
 
   filterList = (e) => {
     let faction = e.target.value;
     this.props.filterList(faction);
+    this.setState({ factionFilter: faction });
+    this.forceUpdate();
   }
 
   searchFor = (e) => {
@@ -29,21 +33,21 @@ class TopBar extends Component {
         <div className="col-12 col-sm-9 col-md-9 col-lg-4 order-1 order-md-2 order-lg-2 mb-3 mb-sm-0">
           <div id="filter" className="d-flex align-items-center">
             <span className="mr-3">Filter:</span>
-            <div className="d-inline" aria-label="Factions">
-              <button
+            <div className="btn-group btn-group-toggle">
+             <button
                 type="button"
                 value="All"
-                className="btn btn-link p-0"
+                className={`btn btn-link p-0 ${this.state.factionFilter === 'All' ? 'active-filter' : ''}`}
                 onClick={this.filterList.bind(this)}
               >All</button>
 
               {factions.map(faction => (
                 <span key={faction.id}>
-                  <span className="link-separator">|</span>
+                  <span className="mx-2">|</span>
                   <button
                     type="button"
                     value={faction.name}
-                    className="btn btn-link p-0"
+                    className={`btn btn-link p-0 ${this.state.factionFilter === faction.name ? 'active-filter' : ''}`}
                     onClick={this.filterList.bind(this)}
                   >{faction.name}</button>
                 </span>

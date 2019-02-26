@@ -1,3 +1,11 @@
 .required:invalid {
   border-color: red;
 }
+
+.active-filter {
+  text-decoration: underline;
+}
+
+#filter {
+  height: 100%;
+}
