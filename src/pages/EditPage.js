@@ -5,8 +5,7 @@ import TransformerForm from '../components/TransformerForm.js';
 class EditPage extends Component {
 
   state = {
-    redirect: false,
-    editedTransformer: {}
+    redirect: false
   }
 
   editInit = {
@@ -27,6 +26,15 @@ class EditPage extends Component {
   }
 
   saveChanges = (preparedData) => {
+    let transformers = [...this.props.transformers];
+    let editedTransformerKey;
+    for (let i = 0; i < transformers.length; i++) {
+      if (transformers[i].id === preparedData.id) {
+        editedTransformerKey = i;
+      }
+    }
+    transformers[editedTransformerKey] = preparedData;
+
     fetch(`https://my-json-server.typicode.com/fpiskur/transformers-api/transformers/${preparedData.id}`, {
       method: 'PUT',
       headers: {
@@ -36,28 +44,25 @@ class EditPage extends Component {
     })
     .then(response => response.json())
     .then(json => {
-      this.setState({ editedTransformer: json, redirect: true });
+      // this.setState({ editedTransformer: json, redirect: true });
+      this.setState({ redirect: true });
+      this.props.updateTransformersList(transformers);
     })
-    .catch(error => console.log('Error: ID not found on fake server'));
+    .catch(error => console.error('Error: ID not found on fake server'));
   }
 
   componentWillMount() {
-    let transformerId = this.props.match.params.id;
+    let transformerId = Number(this.props.match.params.id);
     let [transformer] = this.props.transformers
-                     .filter(transformer => transformer.id == transformerId);
+                     .filter(transformer => transformer.id === transformerId);
     this.editInit = { ...transformer };
-
   }
 
   render() {
 
     let { redirect } = this.state;
     if(redirect) {
-      return <Redirect to={{
-          pathname: '/',
-          state: this.state.editedTransformer
-        }}
-      />
+      return <Redirect to='/' />
     }
 
     return (

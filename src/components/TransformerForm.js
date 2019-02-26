@@ -122,7 +122,7 @@ class TransformerForm extends Component {
         obj[key] = data[key];
         return obj;
       }, {});
-    this.props.method(prepared);
+    this.props.method({...prepared});
   };
 
   render() {

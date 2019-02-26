@@ -5,8 +5,7 @@ import TransformerForm from '../components/TransformerForm.js';
 class AddNewPage extends Component {
 
   state = {
-    redirect: false,
-    newTransformer: {}
+    redirect: false
   }
 
   addNewInit = {
@@ -27,10 +26,10 @@ class AddNewPage extends Component {
   }
 
   getNewId = () => {
-    let transformers = this.props.transformers;
+    let transformers = [...this.props.transformers];
     let highestId = transformers.map(transformer => transformer.id)
                                 .reduce((highest, current) => Math.max(highest, current), -Infinity);
-    return highestId;
+    return highestId + 1;
   }
 
   addNewTransformer = (preparedData) => {
@@ -44,7 +43,9 @@ class AddNewPage extends Component {
     })
     .then(response => response.json())
     .then(json => {
-      this.setState({ newTransformer: json, redirect: true });
+      // this.setState(prevState => { transformers: [...prevState, json], redirect: true });
+      this.setState({ redirect: true });
+      this.props.updateTransformersList([...this.props.transformers, json]);
     })
     .catch(error => console.error('Error: ', error));
   }
@@ -53,11 +54,7 @@ class AddNewPage extends Component {
 
     let { redirect } = this.state;
     if(redirect) {
-      return <Redirect to={{
-          pathname: '/',
-          state: this.state.newTransformer
-        }}
-      />
+      return <Redirect to='/' />
     }
     
     return (
@@ -71,7 +68,7 @@ class AddNewPage extends Component {
           vehicleTypes={this.props.vehicleTypes}
           init={this.addNewInit}
           method={this.addNewTransformer}
-          submitText="Add To List"
+          submitText="Add Transformer"
         />
 
       </div>

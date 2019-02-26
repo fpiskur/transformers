@@ -9,19 +9,6 @@ class OverviewPage extends Component {
     notFound: false
   }
 
-  componentWillMount() {
-    if(this.props.location.state) {
-      let listItem = {...this.props.location.state};
-      let transformers = [...this.props.transformers];
-      if(!this.sameId(listItem, transformers)) {
-        transformers.push(listItem);
-      } else {
-        transformers[listItem.id] = listItem;
-      }
-      this.props.updateTransformersList(transformers);
-    }
-  }
-
   componentWillReceiveProps(props) {
     this.setState({ transformers: [...props.transformers] });
     // this.forceUpdate();
@@ -45,11 +32,6 @@ class OverviewPage extends Component {
     } else {
       this.setState({ notFound: true });
     }
-  }
-
-  sameId (newTransformer, transformers) {
-    let sameIds = transformers.filter(transformer => transformer.id == newTransformer.id);
-    return Boolean(sameIds.toString())
   }
 
   render() {

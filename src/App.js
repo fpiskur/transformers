@@ -56,7 +56,6 @@ class App extends Component {
               <OverviewPage {...props}
                 factions={factions}
                 transformers={transformers}
-                updateTransformersList={this.updateTransformersList}
               />
             )} />
             <Route exact path="/add-new" render={(props) => (
@@ -64,6 +63,7 @@ class App extends Component {
                 factions={factions}
                 vehicleTypes={vehicleTypes}
                 transformers={transformers}
+                updateTransformersList={this.updateTransformersList}
               />
             )} />
             <Route exact path="/edit/:id" render={(props) => (
@@ -71,6 +71,7 @@ class App extends Component {
                 factions={factions}
                 transformers={transformers}
                 vehicleTypes={vehicleTypes}
+                updateTransformersList={this.updateTransformersList}
               />
             )} />
           </div>
