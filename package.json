@@ -1,10 +1,8 @@
 {
-  "homepage": "https://fpiskur.github.io/transformers",
   "name": "transformers",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "gh-pages": "^2.1.1",
     "json-server": "^0.14.2",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
